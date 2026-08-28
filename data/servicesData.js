@@ -2,61 +2,53 @@ export const servicesData = [
   {
     id: "web-development",
     title: "Web Development",
-    shortDescription: "We design and develop responsive websites and web applications tailored to business needs.",
-    fullDescription: "We build modern, high-performing websites and web applications tailored to engage users, convert visitors, and deliver reliable technical performance.",
+    shortDescription: "We build modern, high-performing websites and web applications tailored to engage users, convert visitors, and support your business goals.",
     benefits: [
-      "Custom responsive design tailored to your brand",
-      "Fast page load speed & Core Web Vitals optimization",
-      "Clean architecture with React and Next.js",
-      "Built-in search engine optimization and accessibility"
+      "Responsive layout across Mobile, Tablet, and Desktop",
+      "Search Engine Optimization (SEO) best practices",
+      "High performance and fast loading speeds",
+      "Custom design tailored to your brand identity"
     ],
-    technologies: ["React", "Next.js", "JavaScript", "TypeScript", "Tailwind CSS"],
     iconName: "Globe",
-    ctaText: "Contact Us"
+    ctaText: "Discuss Web Development"
   },
   {
     id: "business-systems",
     title: "Business Systems",
-    shortDescription: "We build practical dashboards and management systems for inventory, bookings, customers, repairs, and daily operations.",
-    fullDescription: "Streamline daily operations with tailored internal dashboards and management tools that replace spreadsheets with organized data.",
+    shortDescription: "We develop custom digital systems that simplify operations, organize business data, and improve the way your team works.",
     benefits: [
-      "Centralized operational visibility for management",
-      "Automated ticket, booking, or order tracking workflows",
-      "Secure user roles & permissions",
-      "Exportable data & business reporting"
+      "Centralized operations and workflow management",
+      "Secure role-based user access controls",
+      "Automated data processing and reporting",
+      "Scalable database architecture"
     ],
-    technologies: ["React", "Node.js", "Python", "PostgreSQL", "APIs"],
     iconName: "LayoutDashboard",
-    ctaText: "Contact Us"
+    ctaText: "Discuss Business Systems"
   },
   {
-    id: "ai-integrations",
-    title: "AI Integrations",
-    shortDescription: "We build practical automation, API integrations, and workflow efficiency improvements for modern business software.",
-    fullDescription: "Augment your existing business software with practical intelligence tools, API automation pipelines, and workflow efficiency improvements.",
+    id: "ai-integration",
+    title: "AI Integration",
+    shortDescription: "We integrate practical AI tools into your existing workflows to reduce manual work and create smarter digital experiences.",
     benefits: [
-      "Substantial reduction in manual operational tasks",
-      "Automated multi-service API pipelines",
-      "Strict data privacy & scope governance",
-      "Streamlined technical workflows"
+      "Automated document processing and classification",
+      "Smart workflow automation tools",
+      "Custom API integrations with AI models",
+      "Secure data handling and privacy controls"
     ],
-    technologies: ["Python", "APIs", "Data Pipelines", "JavaScript"],
     iconName: "Cpu",
-    ctaText: "Contact Us"
+    ctaText: "Discuss AI Integration"
   },
   {
     id: "website-maintenance",
     title: "Website Maintenance",
-    shortDescription: "We provide bug fixes, content updates, deployment support, performance improvements, and ongoing website maintenance.",
-    fullDescription: "Keep your digital platforms running smoothly, securely, and up to date with ongoing technical maintenance and performance tuning.",
+    shortDescription: "We keep your website secure, updated, reliable, and performing well after launch.",
     benefits: [
-      "High platform uptime and swift issue resolution",
-      "Security patches & dependency updates",
-      "Speed & performance optimization",
-      "Continuous support & technical handover"
+      "Continuous security patches and dependency updates",
+      "Automated backups and data protection",
+      "Performance monitoring and uptime optimization",
+      "Priority technical support and bug fixes"
     ],
-    technologies: ["JavaScript", "React", "CSS", "Cloud Hosting"],
     iconName: "ShieldCheck",
-    ctaText: "Contact Us"
+    ctaText: "Request Maintenance Support"
   }
 ];

@@ -18,6 +18,21 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Close mobile menu and restore scrolling whenever pathname changes
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    document.body.style.overflow = '';
+  }, [pathname]);
+
+  // Lock/unlock body scroll when mobile menu toggles
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen((prev) => {
+      const nextState = !prev;
+      document.body.style.overflow = nextState ? 'hidden' : '';
+      return nextState;
+    });
+  };
+
   const navItems = [
     { href: '/', label: 'Home' },
     { href: '/services', label: 'Services' },
@@ -28,6 +43,10 @@ export default function Header() {
 
   return (
     <header className={`sticky-header ${scrolled ? 'header-scrolled' : ''}`}>
+      <a href="#main-content" className="skip-to-content">
+        Skip to content
+      </a>
+
       <div className="container header-container">
         {/* Brand Logo */}
         <Link href="/" className="brand-logo-btn">
@@ -47,13 +66,14 @@ export default function Header() {
             {navItems.map((item) => {
               const isActive = item.href === '/' 
                 ? pathname === '/' 
-                : pathname ? pathname.startsWith(item.href) : false;
+                : pathname ? (pathname === item.href || pathname.startsWith(item.href + '/')) : false;
 
               return (
                 <li key={item.href}>
                   <Link
                     href={item.href}
                     className={`nav-link ${isActive ? 'active' : ''}`}
+                    aria-current={isActive ? 'page' : undefined}
                   >
                     {item.label}
                     {isActive && <span className="active-underline" />}
@@ -73,7 +93,7 @@ export default function Header() {
 
           <button
             className="mobile-toggle-btn"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            onClick={toggleMobileMenu}
             aria-expanded={mobileMenuOpen}
             aria-label="Toggle menu"
           >
@@ -85,18 +105,22 @@ export default function Header() {
       {/* Mobile Menu Drawer */}
       {mobileMenuOpen && (
         <div className="mobile-drawer">
-          <nav className="mobile-nav">
+          <nav className="mobile-nav" aria-label="Mobile Navigation">
             {navItems.map((item) => {
               const isActive = item.href === '/' 
                 ? pathname === '/' 
-                : pathname ? pathname.startsWith(item.href) : false;
+                : pathname ? (pathname === item.href || pathname.startsWith(item.href + '/')) : false;
 
               return (
                 <Link
                   key={item.href}
                   href={item.href}
                   className={`mobile-nav-link ${isActive ? 'active' : ''}`}
-                  onClick={() => setMobileMenuOpen(false)}
+                  aria-current={isActive ? 'page' : undefined}
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    document.body.style.overflow = '';
+                  }}
                 >
                   {item.label}
                 </Link>
@@ -108,7 +132,10 @@ export default function Header() {
             <Link
               href="/contact"
               className="btn btn-primary w-full"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={() => {
+                setMobileMenuOpen(false);
+                document.body.style.overflow = '';
+              }}
             >
               Contact Us
               <ArrowRight size={16} />
@@ -118,6 +145,25 @@ export default function Header() {
       )}
 
       <style jsx>{`
+        .skip-to-content {
+          position: absolute;
+          top: -9999px;
+          left: 1rem;
+          z-index: 100;
+          padding: 0.5rem 1rem;
+          background: #0057D8;
+          color: #FFFFFF;
+          font-weight: 700;
+          font-size: 0.875rem;
+          border-radius: var(--radius-sm);
+          text-decoration: none;
+          transition: top 0.15s ease;
+        }
+
+        .skip-to-content:focus {
+          top: 0.75rem;
+        }
+
         .sticky-header {
           position: sticky;
           top: 0;
@@ -283,6 +329,17 @@ export default function Header() {
           color: #475569;
           border-radius: var(--radius-md);
           text-decoration: none;
+        }
+
+        .nav-link:focus-visible,
+        .brand-logo-btn:focus-visible,
+        .header-cta:focus-visible,
+        .mobile-toggle-btn:focus-visible,
+        .mobile-nav-link:focus-visible,
+        .skip-to-content:focus-visible {
+          outline: 2px solid #0057D8;
+          outline-offset: 3px;
+          border-radius: var(--radius-sm);
         }
 
         .mobile-nav-link.active {

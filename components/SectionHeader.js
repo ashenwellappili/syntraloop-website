@@ -10,7 +10,7 @@ export default function SectionHeader({ title, subtitle, centered = false }) {
 
       <style jsx>{`
         .section-header {
-          margin-bottom: 2.5rem;
+          margin-bottom: 2.75rem;
           max-width: 720px;
         }
 
@@ -22,7 +22,7 @@ export default function SectionHeader({ title, subtitle, centered = false }) {
 
         .section-title {
           font-size: 2.1rem;
-          margin-bottom: 0.5rem;
+          margin-bottom: 0.75rem;
           color: var(--text-navy);
           letter-spacing: -0.02em;
         }
@@ -37,6 +37,18 @@ export default function SectionHeader({ title, subtitle, centered = false }) {
           font-size: 1.05rem;
           color: var(--text-slate);
           line-height: 1.6;
+          max-width: 680px;
+        }
+
+        .section-header.text-center .section-subtitle {
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        @media (max-width: 640px) {
+          .section-subtitle {
+            font-size: 0.95rem;
+          }
         }
       `}</style>
     </div>

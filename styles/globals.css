@@ -12,6 +12,7 @@
   --text-muted: #64748B;
   --accent-blue: #0057D8;
   --accent-blue-hover: #0047B3;
+  --accent-cyan-glow: rgba(0, 87, 216, 0.14);
 
   --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -42,6 +43,7 @@ body {
   min-height: 100vh;
   background-color: var(--bg-primary);
   color: var(--text-navy);
+  overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -83,18 +85,19 @@ a {
   background-color: var(--bg-secondary);
 }
 
-/* Crisp Clean Studio Card - Light Theme */
+/* Crisp Clean Studio Card - Light Theme with Cyan/Blue Glow on Hover */
 .studio-card {
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   padding: 2rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 }
 
 .studio-card:hover {
-  border-color: #CBD5E1;
-  box-shadow: 0 4px 12px rgba(15, 27, 45, 0.04);
+  border-color: var(--accent-blue);
+  box-shadow: 0 6px 22px var(--accent-cyan-glow);
+  transform: translateY(-3px);
 }
 
 /* Badges */
@@ -123,7 +126,7 @@ a {
   font-weight: 600;
   font-size: 0.9375rem;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
   border: 1px solid transparent;
   outline: none;
 }
@@ -137,6 +140,7 @@ a {
 .btn-primary:hover {
   background-color: var(--accent-blue-hover);
   border-color: var(--accent-blue-hover);
+  box-shadow: 0 4px 14px rgba(0, 87, 216, 0.25);
 }
 
 .btn-secondary {
@@ -154,4 +158,549 @@ a {
 :focus-visible {
   outline: 2px solid var(--accent-blue);
   outline-offset: 2px;
+}
+
+/* ==========================================================================
+   HOMEPAGE & HERO STYLING
+   ========================================================================== */
+
+.hero-section {
+  position: relative;
+  padding: 7.5rem 0 6.5rem 0;
+  background-color: var(--bg-primary);
+}
+
+.hero-nodes-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-nodes-svg {
+  width: 100%;
+  height: 100%;
+  max-width: 1200px;
+}
+
+.hero-heading {
+  font-size: 3rem;
+  line-height: 1.12;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.03em;
+  color: var(--text-navy);
+}
+
+@media (min-width: 768px) {
+  .hero-heading {
+    font-size: 4.2rem;
+  }
+}
+
+.value-strip-section {
+  background-color: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  padding: 1.75rem 0;
+}
+
+.value-strip-grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  gap: 1.5rem;
+}
+
+.value-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text-navy);
+}
+
+.value-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accent-blue);
+}
+
+/* ==========================================================================
+   WORK & SERVICES PAGE LAYOUTS
+   ========================================================================== */
+
+.services-section-wrapper, .work-hero-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.work-hero-section {
+  padding: 6.5rem 0 5.5rem 0;
+  background-color: var(--bg-primary);
+}
+
+.hero-content {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.hero-title {
+  font-size: 3rem;
+  line-height: 1.15;
+  margin-bottom: 1.25rem;
+  color: var(--text-navy);
+  letter-spacing: -0.03em;
+}
+
+@media (min-width: 768px) {
+  .hero-title {
+    font-size: 4.2rem;
+  }
+}
+
+.text-accent-blue {
+  color: var(--accent-blue);
+}
+
+.hero-subtext {
+  font-size: 1.18rem;
+  color: var(--text-slate);
+  line-height: 1.7;
+  margin-bottom: 2.25rem;
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-cta-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn-lg {
+  padding: 1rem 2.2rem;
+  font-size: 1.025rem;
+}
+
+.work-projects-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.75rem;
+  margin-bottom: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .work-projects-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.demo-notice-note-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 1.25rem 1.75rem;
+  background-color: #FFFFFF;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.notice-icon {
+  color: var(--accent-blue);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.notice-text {
+  font-size: 0.875rem;
+  color: var(--text-slate);
+  line-height: 1.6;
+}
+
+.why-us-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .why-us-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  .why-us-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.why-us-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.why-us-icon-box {
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-md);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-blue);
+  margin-bottom: 1.25rem;
+}
+
+.why-us-title {
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-navy);
+}
+
+.why-us-desc {
+  font-size: 0.9rem;
+  color: var(--text-slate);
+  line-height: 1.6;
+}
+
+.final-cta-card {
+  text-align: center;
+  padding: 4.5rem 2rem;
+  background-color: var(--bg-secondary);
+}
+
+.cta-heading {
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+  color: var(--text-navy);
+}
+
+.cta-subtext {
+  font-size: 1.05rem;
+  color: var(--text-slate);
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+}
+
+@media (max-width: 640px) {
+  .hidden-mobile {
+    display: none;
+  }
+}
+
+/* Moving Low-Contrast Grid (20s diagonal animation) */
+.services-grid-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: 
+    linear-gradient(to right, rgba(15, 27, 45, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 27, 45, 0.035) 1px, transparent 1px);
+  background-size: 36px 36px;
+  animation: servicesGridDiagonal 20s linear infinite;
+}
+
+@keyframes servicesGridDiagonal {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 36px 36px;
+  }
+}
+
+/* Gentle Moving Corner Gradient Glows */
+.services-corner-glow-left {
+  position: absolute;
+  top: -100px;
+  left: -100px;
+  width: 450px;
+  height: 450px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 87, 216, 0.07) 0%, transparent 70%);
+  pointer-events: none;
+  animation: cornerGlowFloatLeft 18s ease-in-out infinite alternate;
+  z-index: 0;
+}
+
+.services-corner-glow-right {
+  position: absolute;
+  bottom: -100px;
+  right: -100px;
+  width: 450px;
+  height: 450px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 87, 216, 0.07) 0%, transparent 70%);
+  pointer-events: none;
+  animation: cornerGlowFloatRight 18s ease-in-out infinite alternate;
+  z-index: 0;
+}
+
+@keyframes cornerGlowFloatLeft {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(40px, 30px) scale(1.1);
+  }
+}
+
+@keyframes cornerGlowFloatRight {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(-40px, -30px) scale(1.1);
+  }
+}
+
+/* Service Icon Hover Animation */
+.service-icon-box {
+  transition: transform 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+.studio-card:hover .service-icon-box {
+  transform: scale(1.08) rotate(3deg);
+  background-color: #EBF3FF;
+  border-color: #CCE0FF;
+  color: var(--accent-blue);
+}
+
+/* Service CTA Button Arrow Hover Motion */
+.service-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.service-cta-arrow {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.service-cta-btn:hover .service-cta-arrow {
+  transform: translateX(4px);
+}
+
+/* ==========================================================================
+   SCROLL REVEAL ANIMATION
+   ========================================================================== */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Mobile Animation Simplification */
+@media (max-width: 640px) {
+  .services-grid-bg {
+    animation: none !important;
+    background-size: 36px 36px;
+  }
+  .services-corner-glow-left,
+  .services-corner-glow-right {
+    animation: none !important;
+    opacity: 0.5;
+  }
+  .scroll-reveal {
+    transition-duration: 0.4s !important;
+  }
+}
+
+/* ==========================================================================
+   HERO SECTION ANIMATIONS
+   ========================================================================== */
+
+/* Hero Text Fade-In & Upward Motion */
+.animate-fade-in-up {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.delay-1 {
+  animation-delay: 0.1s;
+}
+
+.delay-2 {
+  animation-delay: 0.25s;
+}
+
+.delay-3 {
+  animation-delay: 0.4s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hero Section Layout & Technical Background Grid */
+.hero-section {
+  position: relative;
+  padding: 7rem 0 6rem 0;
+  background-color: var(--bg-primary);
+  overflow: hidden;
+}
+
+.hero-tech-grid-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: 
+    linear-gradient(to right, rgba(0, 87, 216, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 87, 216, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: moveTechGrid 25s linear infinite;
+}
+
+@keyframes moveTechGrid {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 40px;
+  }
+}
+
+/* Neural Network Data-Flow Stream Layer */
+.hero-nodes-layer {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 1200px;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.hero-nodes-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Traveling Neural Data Packets (Continuous Path Motion) */
+.neural-data-stream {
+  stroke-dasharray: 40 220;
+  stroke-dashoffset: 0;
+  animation: runNeuralPacket 5s linear infinite;
+  filter: drop-shadow(0 0 6px rgba(0, 87, 216, 0.75));
+}
+
+.stream-1 {
+  animation-duration: 4s;
+}
+
+.stream-2 {
+  animation-duration: 5.5s;
+  animation-delay: -2s;
+}
+
+.stream-3 {
+  animation-duration: 6.5s;
+  animation-delay: -3.5s;
+}
+
+@keyframes runNeuralPacket {
+  0% {
+    stroke-dashoffset: 520;
+  }
+  100% {
+    stroke-dashoffset: -520;
+  }
+}
+
+/* Neural Network Node Core & Expanding Signal Ripples */
+.neural-node-core {
+  filter: drop-shadow(0 0 5px rgba(0, 87, 216, 0.85));
+}
+
+.neural-node-ring {
+  opacity: 0.6;
+  transform-origin: center;
+  animation: expandNeuralRing 2.6s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+}
+
+.delay-ring {
+  animation-delay: 1.3s;
+}
+
+@keyframes expandNeuralRing {
+  0% {
+    r: 6;
+    opacity: 0.85;
+    stroke-width: 1.5;
+  }
+  100% {
+    r: 24;
+    opacity: 0;
+    stroke-width: 0.5;
+  }
+}
+
+/* Prefers-reduced-motion Compliance */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001s !important;
+  }
+  .animate-fade-in-up {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+  .hero-tech-grid-bg,
+  .services-grid-bg,
+  .services-corner-glow-left,
+  .services-corner-glow-right,
+  .neural-data-stream,
+  .neural-node-ring {
+    animation: none !important;
+  }
+  .scroll-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .studio-card:hover {
+    transform: none !important;
+  }
+  .studio-card:hover .service-icon-box {
+    transform: none !important;
+  }
+  .service-cta-btn:hover .service-cta-arrow {
+    transform: none !important;
+  }
 }

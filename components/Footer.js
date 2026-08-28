@@ -2,24 +2,17 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Mail, MessageSquare, Linkedin, Facebook, Instagram, Share2, Twitter } from 'lucide-react';
+import { Mail, MessageSquare, Linkedin, Facebook, Instagram, Twitter } from 'lucide-react';
 
 export default function Footer() {
-  /* ==========================================================================
-     SOCIAL MEDIA & CONTACT URLS
-     - Email: Real email (syntraloop.contact@gmail.com)
-     - LinkedIn: Ready for official link swap
-     - FB, IG, Reddit, X: Placeholders clearly marked for easy swap
-     ========================================================================== */
   const contactEmail = "syntraloop.contact@gmail.com";
-  const whatsappNumber = "+94 00 000 0000"; // Placeholder
+  const whatsappNumber = "+94 00 000 0000"; // Placeholder number - easy to replace
 
   const socialLinks = {
-    linkedin: "https://www.linkedin.com/company/syntraloop", // Official link ready
-    facebook: "https://facebook.com/syntraloop",             // Placeholder - replace when account created
-    instagram: "https://instagram.com/syntraloop",           // Placeholder - replace when account created
-    reddit: "https://reddit.com/r/syntraloop",               // Placeholder - replace when account created
-    twitter: "https://x.com/syntraloop",                     // Placeholder - replace when account created
+    linkedin: "https://www.linkedin.com/company/syntraloop",
+    facebook: "https://facebook.com/syntraloop",
+    instagram: "https://instagram.com/syntraloop",
+    twitter: "https://x.com/syntraloop",
   };
 
   return (
@@ -35,9 +28,9 @@ export default function Footer() {
               <span className="footer-brand-name">SyntraLoop</span>
             </div>
 
-            <p className="footer-tagline">"From Ideas to Intelligent Solutions."</p>
+            <p className="footer-tagline">&ldquo;From Ideas to Intelligent Solutions.&rdquo;</p>
             <p className="footer-desc">
-              SyntraLoop transforms business ideas into modern websites, web applications, business systems, AI integrations, and future data-driven digital solutions.
+              SyntraLoop builds modern digital solutions for growing businesses.
             </p>
 
             <div className="footer-placeholders-box">
@@ -52,15 +45,15 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Nav Col */}
+          {/* Navigation Col */}
           <div className="footer-col">
             <h4 className="footer-col-title">Navigation</h4>
             <ul className="footer-links">
               <li><Link href="/">Home</Link></li>
               <li><Link href="/services">Services</Link></li>
-              <li><Link href="/work">Work Showcase</Link></li>
-              <li><Link href="/about">About Us</Link></li>
-              <li><Link href="/contact">Contact Us</Link></li>
+              <li><Link href="/work">Work</Link></li>
+              <li><Link href="/about">About</Link></li>
+              <li><Link href="/contact">Contact</Link></li>
             </ul>
           </div>
 
@@ -70,12 +63,12 @@ export default function Footer() {
             <ul className="footer-links-static">
               <li>Web Development</li>
               <li>Business Systems</li>
-              <li>AI Integrations</li>
+              <li>AI Integration</li>
               <li>Website Maintenance</li>
             </ul>
           </div>
 
-          {/* Social Channels Col */}
+          {/* Connect & Socials Col */}
           <div className="footer-col">
             <h4 className="footer-col-title">Connect & Socials</h4>
             <p className="footer-cta-text">
@@ -88,7 +81,7 @@ export default function Footer() {
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="social-btn" 
-                aria-label="LinkedIn"
+                aria-label="SyntraLoop LinkedIn"
                 title="SyntraLoop LinkedIn"
               >
                 <Linkedin size={16} />
@@ -99,7 +92,7 @@ export default function Footer() {
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="social-btn" 
-                aria-label="Facebook"
+                aria-label="SyntraLoop Facebook"
                 title="SyntraLoop Facebook"
               >
                 <Facebook size={16} />
@@ -110,21 +103,10 @@ export default function Footer() {
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="social-btn" 
-                aria-label="Instagram"
+                aria-label="SyntraLoop Instagram"
                 title="SyntraLoop Instagram"
               >
                 <Instagram size={16} />
-              </a>
-
-              <a 
-                href={socialLinks.reddit} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="social-btn" 
-                aria-label="Reddit"
-                title="SyntraLoop Reddit"
-              >
-                <Share2 size={16} />
               </a>
 
               <a 
@@ -132,7 +114,7 @@ export default function Footer() {
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="social-btn" 
-                aria-label="X Twitter"
+                aria-label="SyntraLoop X Twitter"
                 title="SyntraLoop X (Twitter)"
               >
                 <Twitter size={16} />
@@ -242,75 +224,87 @@ export default function Footer() {
         .email-link {
           color: var(--text-navy);
           font-weight: 500;
+          transition: color 0.2s ease;
+        }
+
+        .email-link:hover {
+          color: var(--accent-blue);
         }
 
         .footer-col-title {
           font-size: 0.95rem;
           margin-bottom: 1.25rem;
           color: var(--text-navy);
+          font-weight: 700;
         }
 
-        .footer-links, .footer-links-static {
+        .footer-links,
+        .footer-links-static {
           list-style: none;
           display: flex;
           flex-direction: column;
-          gap: 0.65rem;
-        }
-
-        .footer-links :global(a) {
-          color: var(--text-slate);
+          gap: 0.75rem;
           font-size: 0.875rem;
-          transition: color 0.15s ease;
         }
 
-        .footer-links :global(a:hover) {
-          color: var(--text-navy);
+        .footer-links a {
+          color: var(--text-slate);
+          transition: color 0.2s ease, transform 0.2s ease;
+          display: inline-block;
+        }
+
+        .footer-links a:hover {
+          color: var(--accent-blue);
+          transform: translateX(2px);
         }
 
         .footer-links-static li {
-          font-size: 0.875rem;
-          color: var(--text-muted);
+          color: var(--text-slate);
         }
 
         .footer-cta-text {
           font-size: 0.875rem;
           color: var(--text-slate);
-          margin-bottom: 1rem;
+          line-height: 1.5;
+          margin-bottom: 1.25rem;
         }
 
         .social-links-row {
           display: flex;
-          flex-wrap: wrap;
-          gap: 0.65rem;
+          align-items: center;
+          gap: 0.75rem;
         }
 
         .social-btn {
+          width: 36px;
+          height: 36px;
+          border-radius: var(--radius-md);
+          background-color: var(--bg-primary);
+          border: 1px solid var(--border-color);
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 36px;
-          height: 36px;
-          background-color: var(--bg-primary);
-          border: 1px solid var(--border-color);
-          border-radius: var(--radius-sm);
           color: var(--text-slate);
-          transition: all 0.15s ease;
+          transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .social-btn:hover {
-          border-color: var(--accent-blue);
           color: var(--accent-blue);
-          background-color: #EBF3FF;
+          border-color: var(--accent-blue);
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0, 87, 216, 0.12);
         }
 
         .footer-bottom-bar {
-          padding-top: 2rem;
-          border-top: 1px solid var(--border-color);
           display: flex;
           flex-direction: column;
-          gap: 1rem;
           align-items: center;
           justify-content: space-between;
+          gap: 1rem;
+          padding-top: 2rem;
+          border-top: 1px solid var(--border-color);
+          font-size: 0.825rem;
+          color: var(--text-muted);
         }
 
         @media (min-width: 640px) {
@@ -319,29 +313,23 @@ export default function Footer() {
           }
         }
 
-        .copyright-text {
-          font-size: 0.8125rem;
-          color: var(--text-muted);
-        }
-
         .legal-links {
           display: flex;
           align-items: center;
           gap: 0.75rem;
         }
 
-        .legal-links :global(a) {
+        .legal-links a {
           color: var(--text-muted);
-          font-size: 0.8125rem;
-          transition: color 0.15s ease;
+          transition: color 0.2s ease;
         }
 
-        .legal-links :global(a:hover) {
-          color: var(--text-navy);
+        .legal-links a:hover {
+          color: var(--accent-blue);
         }
 
         .dot-divider {
-          color: var(--text-muted);
+          color: var(--border-color);
         }
       `}</style>
     </footer>
