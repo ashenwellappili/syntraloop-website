@@ -42,9 +42,9 @@ export default function StillHaveQuestions() {
       {submitted ? (
         <div className="still-questions-success">
           <CheckCircle2 size={28} className="text-emerald-500 mx-auto mb-2" />
-          <p className="font-bold text-navy text-base">Thank you! Your question is on its way.</p>
-          <p className="text-xs text-slate-500 mt-1 max-w-md mx-auto">
-            Your inquiry is directed to <span className="font-semibold text-blue-600">{targetEmail}</span>. We will review it and reply to <span className="font-semibold text-navy">{email}</span> within 24–48 hours.
+          <p className="font-bold text-navy dark:text-white text-base">Thank you! Your question is on its way.</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-md mx-auto">
+            Your inquiry is directed to <span className="font-semibold text-blue-600 dark:text-cyan-400">{targetEmail}</span>. We will review it and reply to <span className="font-semibold text-navy dark:text-slate-200">{email}</span> within 24–48 hours.
           </p>
           <button 
             type="button" 
@@ -52,7 +52,7 @@ export default function StillHaveQuestions() {
               setSubmitted(false);
               setQuestion('');
             }}
-            className="mt-3 text-xs font-semibold text-blue-600 hover:text-blue-700 underline"
+            className="mt-3 text-xs font-semibold text-blue-600 dark:text-cyan-400 hover:text-blue-700 underline"
           >
             Send another question
           </button>

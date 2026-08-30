@@ -254,8 +254,6 @@ export default function ContactClient() {
         title="Request a Digital"
         highlightText="Project Assessment"
         subtitle="Complete the form below to receive practical insights, technical feasibility feedback, and next steps within 24-48 hours."
-        ctaText="Jump to Request Form"
-        ctaHref="#assessment-form"
       />
 
       {/* 2. REQUEST AN ASSESSMENT FORM SECTION */}

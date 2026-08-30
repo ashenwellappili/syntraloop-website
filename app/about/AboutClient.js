@@ -104,22 +104,9 @@ export default function AboutClient() {
                   </div>
                   <span className="path-card-kicker">Core Identity</span>
                   <h2 className="path-card-title text-2xl font-bold mb-2">Positioning & Mission</h2>
-                  <p className="path-card-desc mb-6">
+                  <p className="path-card-desc">
                     We help startups, small and medium-sized businesses, founders, and international clients turn practical business challenges into reliable, scalable software solutions.
                   </p>
-                </div>
-
-                <div className="w-full mt-auto">
-                  <div className="path-meta-strip">
-                    <div className="meta-item">
-                      <span className="meta-label">Focus</span>
-                      <span className="meta-value">Engineering Craft</span>
-                    </div>
-                    <div className="meta-item">
-                      <span className="meta-label">Audience</span>
-                      <span className="meta-value">Global SMBs & Startups</span>
-                    </div>
-                  </div>
                 </div>
               </div>
             </ScrollReveal>
@@ -132,22 +119,9 @@ export default function AboutClient() {
                   </div>
                   <span className="path-card-kicker">Vision</span>
                   <h2 className="path-card-title text-2xl font-bold mb-2">Long-Term Direction</h2>
-                  <p className="path-card-desc mb-6">
+                  <p className="path-card-desc">
                     Our long-term direction is centered on engineering craft, clean software architecture, transparent communication, and lasting value for every client we collaborate with.
                   </p>
-                </div>
-
-                <div className="w-full mt-auto">
-                  <div className="path-meta-strip">
-                    <div className="meta-item">
-                      <span className="meta-label">Approach</span>
-                      <span className="meta-value">Transparent Sprints</span>
-                    </div>
-                    <div className="meta-item">
-                      <span className="meta-label">Result</span>
-                      <span className="meta-value">Production Quality</span>
-                    </div>
-                  </div>
                 </div>
               </div>
             </ScrollReveal>
@@ -186,18 +160,10 @@ export default function AboutClient() {
                         <p className="dark-glass-desc">{item.desc}</p>
                       </div>
                     </div>
-                    <span className="dark-glass-tag">{item.tag}</span>
                   </div>
                 </ScrollReveal>
               );
             })}
-          </div>
-
-          <div className="mt-8">
-            <Link href="/contact" className="btn btn-cyan-pill">
-              <span>Start a Project With Us</span>
-              <ArrowRight size={16} />
-            </Link>
           </div>
         </div>
       </section>

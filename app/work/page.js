@@ -84,10 +84,6 @@ export default function WorkPage() {
         title="Our Work &"
         highlightText="Engineering Approach"
         subtitle="Concept builds, production architectures, and intelligent workflows that showcase our focus on reliability, performance, and clean design."
-        ctaText="Start a Project"
-        ctaHref="/contact"
-        secondaryCtaText="Explore Services"
-        secondaryCtaHref="/services"
       />
 
       {/* 2. FEATURED PROJECTS GRID */}
@@ -143,24 +139,16 @@ export default function WorkPage() {
                         <p className="dark-glass-desc">{item.desc}</p>
                       </div>
                     </div>
-                    <span className="dark-glass-tag">{item.tag}</span>
                   </div>
                 </ScrollReveal>
               );
             })}
           </div>
-
-          <div className="mt-8">
-            <Link href="/contact" className="btn btn-cyan-pill">
-              <span>Request a Custom Build</span>
-              <ArrowRight size={16} />
-            </Link>
-          </div>
         </div>
       </section>
 
       {/* 4. WORK FAQ & STILL HAVE QUESTIONS */}
-      <section className="section bg-secondary border-t border-slate-200">
+      <section className="section bg-secondary">
         <div className="container">
           <ScrollReveal delay={0}>
             <SectionHeader

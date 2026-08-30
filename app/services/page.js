@@ -29,10 +29,10 @@ import {
 
 export default function ServicesPage() {
   const serviceMeta = {
-    'web-development': { category: 'Web & Mobile', timeline: '2 - 4 Weeks', tech: 'Next.js / React' },
-    'business-systems': { category: 'Custom Software', timeline: '4 - 8 Weeks', tech: 'Node / PostgreSQL' },
-    'ai-integration': { category: 'Intelligent Systems', timeline: '2 - 6 Weeks', tech: 'OpenAI / Python' },
-    'website-maintenance': { category: 'Continuous Care', timeline: 'Monthly SLA', tech: '24/7 Monitoring' },
+    'web-development': { category: 'Web & Mobile' },
+    'business-systems': { category: 'Custom Software' },
+    'ai-integration': { category: 'Intelligent Systems' },
+    'website-maintenance': { category: 'Continuous Care' },
   };
 
   const techReadinessItems = [
@@ -121,7 +121,7 @@ export default function ServicesPage() {
 
           <div className="services-solutions-grid">
             {servicesData.map((svc, idx) => {
-              const meta = serviceMeta[svc.id] || { category: 'Solution', timeline: 'Custom', tech: 'Modern Stack' };
+              const meta = serviceMeta[svc.id] || { category: 'Solution' };
               return (
                 <ScrollReveal key={svc.id} delay={100 + idx * 80}>
                   <div className="path-card path-card-lg path-card-centered">
@@ -137,12 +137,12 @@ export default function ServicesPage() {
                       <h2 className="path-card-title text-2xl font-bold mb-2">{svc.title}</h2>
                       <p className="path-card-desc mb-6">{svc.shortDescription}</p>
 
-                      <div className="mb-6 bg-slate-50/80 p-4 rounded-xl border border-slate-100 text-left">
-                        <p className="text-xs font-bold text-navy uppercase tracking-wider mb-2.5 text-center">Key Capabilities</p>
+                      <div className="mb-6 bg-slate-100/70 dark:bg-slate-800/60 p-4 rounded-xl border border-slate-200/80 dark:border-slate-700/60 text-left transition-colors">
+                        <p className="text-xs font-bold text-blue-600 dark:text-cyan-400 uppercase tracking-wider mb-2.5 text-center">Key Capabilities</p>
                         <ul className="space-y-2">
                           {svc.benefits.map((b, i) => (
-                            <li key={i} className="flex items-start gap-2.5 text-xs md:text-sm text-slate-600">
-                              <CheckCircle2 size={16} className="text-blue-600 shrink-0 mt-0.5" />
+                            <li key={i} className="flex items-start gap-2.5 text-xs md:text-sm text-slate-700 dark:text-slate-300">
+                              <CheckCircle2 size={16} className="text-blue-600 dark:text-cyan-400 shrink-0 mt-0.5" />
                               <span>{b}</span>
                             </li>
                           ))}
@@ -151,17 +151,6 @@ export default function ServicesPage() {
                     </div>
 
                     <div className="w-full mt-auto">
-                      <div className="path-meta-strip">
-                        <div className="meta-item">
-                          <span className="meta-label">Est. Timeline</span>
-                          <span className="meta-value">{meta.timeline}</span>
-                        </div>
-                        <div className="meta-item">
-                          <span className="meta-label">Core Stack</span>
-                          <span className="meta-value">{meta.tech}</span>
-                        </div>
-                      </div>
-
                       <Link 
                         href="/contact" 
                         className="contact-channel-action"
@@ -209,18 +198,10 @@ export default function ServicesPage() {
                         <p className="dark-glass-desc">{item.desc}</p>
                       </div>
                     </div>
-                    <span className="dark-glass-tag">{item.tag}</span>
                   </div>
                 </ScrollReveal>
               );
             })}
-          </div>
-
-          <div className="mt-8">
-            <Link href="/contact" className="btn btn-cyan-pill">
-              <span>Get Free Technical Assessment</span>
-              <ArrowRight size={16} />
-            </Link>
           </div>
         </div>
       </section>
