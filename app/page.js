@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import ScrollReveal from '@/components/ScrollReveal';
 import { 
@@ -10,6 +11,15 @@ import {
   TrendingUp, 
   ArrowRight 
 } from 'lucide-react';
+
+const Interactive3DLogo = dynamic(() => import('@/components/Interactive3DLogo'), {
+  ssr: false,
+  loading: () => (
+    <div className="interactive-3d-logo-canvas flex items-center justify-center">
+      <div className="hero-3d-glow" />
+    </div>
+  )
+});
 
 function NeuralNetworkCanvas() {
   const canvasRef = useRef(null);
@@ -60,7 +70,6 @@ function NeuralNetworkCanvas() {
           n.x += n.vx;
           n.y += n.vy;
 
-          // Boundary bouncing to stay strictly inside the container
           if (n.x <= 15 || n.x >= canvas.width - 15) n.vx *= -1;
           if (n.y <= 15 || n.y >= canvas.height - 15) n.vy *= -1;
         }
@@ -91,13 +100,11 @@ function NeuralNetworkCanvas() {
       for (let i = 0; i < nodes.length; i++) {
         const n = nodes[i];
         
-        // Node outer glowing aura
         ctx.beginPath();
         ctx.arc(n.x, n.y, n.radius * 2.2, 0, Math.PI * 2);
         ctx.fillStyle = 'rgba(0, 87, 216, 0.12)';
         ctx.fill();
 
-        // Node core
         ctx.beginPath();
         ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
         ctx.fillStyle = '#0057D8';
@@ -146,8 +153,8 @@ export default function Home() {
 
   return (
     <div className="page-home">
-      {/* 1. HERO SECTION WITH SLOW-MOVING TECHNICAL GRID & GLOWING NODES */}
-      <section className="hero-section text-center relative overflow-hidden">
+      {/* 1. HERO SECTION WITH 3D INTERACTIVE LOGO & TECHNICAL AMBIENCE */}
+      <section className="hero-section relative overflow-hidden">
         {/* Slow-moving Technical Grid Background */}
         <div className="hero-tech-grid-bg" aria-hidden="true" />
 
@@ -157,58 +164,77 @@ export default function Home() {
         </div>
 
         <div className="container hero-container relative z-10">
-          <div className="hero-content">
-            {/* Gentle Fade-in & Upward Motion for Hero Text */}
-            <h1 className="hero-heading animate-fade-in-up delay-1">
-              From Ideas to <br className="hidden-mobile" />
-              <span className="text-accent-blue">Intelligent Solutions.</span>
-            </h1>
+          <div className="hero-layout-grid">
+            {/* Left Hero Content */}
+            <div className="hero-content">
+              <div className="hero-badge animate-fade-in-up">
+                <span className="hero-badge-dot" />
+                <span>Modern Digital Systems & Engineering</span>
+              </div>
 
-            <p className="hero-subtext animate-fade-in-up delay-2">
-              We build modern websites, business applications, AI integrations, and data-driven digital solutions for businesses ready to move forward.
-            </p>
+              <h1 className="hero-heading animate-fade-in-up delay-1">
+                From Ideas to <br className="hidden-mobile" />
+                <span className="text-accent-blue">Intelligent Solutions.</span>
+              </h1>
 
-            <div className="hero-cta-group animate-fade-in-up delay-3">
-              <Link href="/contact" className="btn btn-primary btn-lg">
-                Contact Us
-                <ArrowRight size={18} />
-              </Link>
+              <p className="hero-subtext animate-fade-in-up delay-2">
+                We build modern websites, business applications, AI integrations, and data-driven digital solutions for businesses ready to move forward.
+              </p>
 
-              <Link href="/work" className="btn btn-secondary btn-lg">
-                View Our Work
-              </Link>
+              <div className="hero-cta-group animate-fade-in-up delay-3">
+                <Link href="/contact" className="btn btn-primary btn-lg">
+                  Contact Us
+                  <ArrowRight size={18} />
+                </Link>
+
+                <Link href="/work" className="btn btn-secondary btn-lg">
+                  View Our Work
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Hero 3D Interactive SyntraLoop Emblem */}
+            <div className="hero-3d-wrapper animate-fade-in-up delay-2">
+              <div className="hero-3d-glow" aria-hidden="true" />
+              <Interactive3DLogo />
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. VALUE STRIP SECTION */}
-      <ScrollReveal>
-        <section className="value-strip-section">
-          <div className="container">
-            <div className="value-strip-grid">
-              <div className="value-item">
-                <span className="value-dot" />
-                <span>Web Development</span>
+      {/* 2. VALUE STRIP SECTION (Horizontal Moving Marquee) */}
+      <section className="value-strip-section" aria-label="Key Capabilities Ticker">
+        <div className="value-strip-marquee">
+          <div className="value-strip-track">
+            {[1, 2, 3, 4].map((groupIndex) => (
+              <div
+                key={groupIndex}
+                className="value-strip-group"
+                aria-hidden={groupIndex > 1 ? "true" : undefined}
+              >
+                <div className="value-item">
+                  <span className="value-dot" />
+                  <span>Web Development</span>
+                </div>
+                <div className="value-item">
+                  <span className="value-dot" />
+                  <span>Business Systems</span>
+                </div>
+                <div className="value-item">
+                  <span className="value-dot" />
+                  <span>AI Integrations</span>
+                </div>
+                <div className="value-item">
+                  <span className="value-dot" />
+                  <span>Data-Driven Solutions</span>
+                </div>
               </div>
-              <div className="value-item">
-                <span className="value-dot" />
-                <span>Business Systems</span>
-              </div>
-              <div className="value-item">
-                <span className="value-dot" />
-                <span>AI Integrations</span>
-              </div>
-              <div className="value-item">
-                <span className="value-dot" />
-                <span>Data-Driven Solutions</span>
-              </div>
-            </div>
+            ))}
           </div>
-        </section>
-      </ScrollReveal>
+        </div>
+      </section>
 
-      {/* 3. NEW SECTION — WHAT MAKES SYNTRALOOP DIFFERENT (NO BUTTONS / NO LINKS) */}
+      {/* 3. WHAT MAKES SYNTRALOOP DIFFERENT (NO BUTTONS / NO LINKS) */}
       <section className="different-section section bg-secondary-section">
         <div className="container">
           <ScrollReveal delay={0}>
@@ -238,115 +264,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <style jsx>{`
-        .different-section {
-          padding: 5rem 0;
-          border-top: 1px solid var(--border-color);
-          border-bottom: 1px solid var(--border-color);
-        }
-
-        .different-header {
-          max-width: 820px;
-          margin: 0 auto 3rem auto;
-          text-align: center;
-        }
-
-        .different-title {
-          font-size: 2.2rem;
-          line-height: 1.25;
-          margin-bottom: 0.85rem;
-          color: var(--text-navy);
-          font-weight: 700;
-          text-align: center;
-        }
-
-        .different-description {
-          font-size: 1.05rem;
-          color: var(--text-slate);
-          line-height: 1.65;
-          text-align: center;
-        }
-
-        .different-cards-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 1.5rem;
-        }
-
-        @media (min-width: 640px) {
-          .different-cards-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-
-        @media (min-width: 1024px) {
-          .different-cards-grid {
-            grid-template-columns: repeat(4, 1fr);
-          }
-        }
-
-        .different-card {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
-          padding: 2.25rem 1.75rem;
-          height: 100%;
-          background-color: #FFFFFF;
-          border: 1px solid var(--border-color);
-          border-radius: var(--radius-md);
-          transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .different-card:hover {
-          transform: translateY(-3px);
-          border-color: #0057D8;
-          box-shadow: 0 8px 24px rgba(0, 87, 216, 0.08);
-        }
-
-        .different-icon-box {
-          width: 52px;
-          height: 52px;
-          border-radius: var(--radius-md);
-          background-color: var(--bg-secondary);
-          border: 1px solid var(--border-color);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: var(--accent-blue);
-          margin-bottom: 1.25rem;
-          transition: box-shadow 0.25s ease;
-        }
-
-        .different-card:hover .different-icon-box {
-          box-shadow: 0 0 12px rgba(0, 87, 216, 0.2);
-        }
-
-        .different-card-title {
-          font-size: 1.2rem;
-          margin-bottom: 0.5rem;
-          color: var(--text-navy);
-          font-weight: 700;
-          text-align: center;
-        }
-
-        .different-card-desc {
-          font-size: 0.925rem;
-          color: var(--text-slate);
-          line-height: 1.6;
-          text-align: center;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .different-card:hover {
-            transform: none !important;
-          }
-          .different-card:hover .different-icon-box {
-            box-shadow: none !important;
-          }
-        }
-      `}</style>
     </div>
   );
 }
