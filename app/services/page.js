@@ -2,8 +2,11 @@
 
 import React from 'react';
 import Link from 'next/link';
+import PageHero from '@/components/PageHero';
 import SectionHeader from '@/components/SectionHeader';
 import ScrollReveal from '@/components/ScrollReveal';
+import FAQAccordion from '@/components/FAQAccordion';
+import StillHaveQuestions from '@/components/StillHaveQuestions';
 import { servicesData } from '@/data/servicesData';
 import { 
   Globe, 
@@ -15,402 +18,235 @@ import {
   Target,
   Sliders,
   MessageSquare,
-  LifeBuoy
+  LifeBuoy,
+  Layers,
+  Database,
+  Cloud,
+  Lock,
+  Workflow,
+  Sparkles
 } from 'lucide-react';
 
 export default function ServicesPage() {
-  const whyWorkWithUsItems = [
+  const serviceMeta = {
+    'web-development': { category: 'Web & Mobile', timeline: '2 - 4 Weeks', tech: 'Next.js / React' },
+    'business-systems': { category: 'Custom Software', timeline: '4 - 8 Weeks', tech: 'Node / PostgreSQL' },
+    'ai-integration': { category: 'Intelligent Systems', timeline: '2 - 6 Weeks', tech: 'OpenAI / Python' },
+    'website-maintenance': { category: 'Continuous Care', timeline: 'Monthly SLA', tech: '24/7 Monitoring' },
+  };
+
+  const techReadinessItems = [
     {
-      icon: Target,
-      title: "Practical Solutions",
-      description: "We focus on useful digital products that solve real business needs."
+      icon: Layers,
+      title: "Frontend & Web Architecture",
+      desc: "Fast, responsive web applications built on modern component frameworks.",
+      tag: "Next.js / React"
     },
     {
-      icon: Sliders,
-      title: "Built Around Your Needs",
-      description: "We shape each solution around your goals, workflow, and users."
+      icon: Workflow,
+      title: "AI Workflows & LLM APIs",
+      desc: "Intelligent assistants, automated extraction, and prompt pipelines.",
+      tag: "OpenAI / Claude"
     },
     {
-      icon: MessageSquare,
-      title: "Clear Communication",
-      description: "We keep the process understandable from planning through launch."
+      icon: Database,
+      title: "Secure Database Pipelines",
+      desc: "Optimized schemas, relational storage, and fast query indexing.",
+      tag: "PostgreSQL / Prisma"
     },
     {
-      icon: LifeBuoy,
-      title: "Support After Launch",
-      description: "We can help with updates, improvements, maintenance, and future development."
+      icon: Cloud,
+      title: "Cloud Infrastructure & CI/CD",
+      desc: "Automated test suites, rapid deployments, and scalable cloud hosting.",
+      tag: "AWS / Vercel"
+    },
+    {
+      icon: Lock,
+      title: "Security & Role-Based Auth",
+      desc: "Encrypted credentials, multi-tenant permissions, and session protection.",
+      tag: "OAuth / JWT"
+    },
+    {
+      icon: ShieldCheck,
+      title: "Uptime & Health Monitoring",
+      desc: "Continuous error tracking, automated backups, and 99.9% uptime targets.",
+      tag: "24/7 SLA Target"
+    }
+  ];
+
+  const servicesFaqItems = [
+    {
+      question: "How do we choose the right technology for our project?",
+      answer: "We assess your goals, expected traffic, security requirements, and budget to recommend the most reliable and maintainable tech stack."
+    },
+    {
+      question: "Can you take over and modernize an existing codebase?",
+      answer: "Yes. We perform a technical audit of your existing system, document the architecture, and systematically upgrade it without disrupting your current operations."
+    },
+    {
+      question: "How does the AI integration process work?",
+      answer: "We identify areas in your workflow where AI can save time—such as customer inquiry handling, data extraction, or content classification—and connect secure AI APIs."
+    },
+    {
+      question: "Do you offer ongoing retainer agreements?",
+      answer: "Yes, we provide flexible monthly maintenance packages covering regular security updates, uptime monitoring, bug fixes, and continuous improvements."
     }
   ];
 
   return (
-    <div className="services-section-wrapper section">
-      {/* Low-Contrast Diagonal Grid Background */}
-      <div className="services-grid-bg" aria-hidden="true" />
-      <div className="services-corner-glow-left" aria-hidden="true" />
-      <div className="services-corner-glow-right" aria-hidden="true" />
+    <div className="page-services-root">
+      {/* 1. CURVED DEEP-NAVY HERO SECTION */}
+      <PageHero
+        badge="Engineering & Capabilities"
+        title="From Ideas to"
+        highlightText="Intelligent Solutions."
+        subtitle="We design, engineer, integrate, and scale robust software solutions tailored to your business needs."
+        ctaText="Request Technical Assessment"
+        ctaHref="/contact"
+        secondaryCtaText="Explore Case Studies"
+        secondaryCtaHref="/work"
+      />
 
-      <div className="container relative z-10">
-        {/* 1. Page Header with Large Title Size (Matches Work/About/Contact pages, NO buttons) */}
-        <ScrollReveal delay={0}>
-          <div className="services-page-header text-center">
-            <h1 className="services-header-title">Services</h1>
-            <p className="services-header-subtext">
-              We design, build, integrate, and maintain reliable digital solutions for growing businesses.
-            </p>
-          </div>
-        </ScrollReveal>
-
-        {/* 2. Detailed Services Responsive Grid (4 Cards) */}
-        <div className="services-detail-grid">
-          {servicesData.map((svc, idx) => (
-            <ScrollReveal key={svc.id} delay={100 + idx * 80}>
-              <div className="studio-card service-detail-card">
-                <div className="service-card-content">
-                  <div className="service-header-row">
-                    <div className="service-icon-box">
-                      {svc.id === 'web-development' && <Globe size={26} />}
-                      {svc.id === 'business-systems' && <LayoutDashboard size={26} />}
-                      {svc.id === 'ai-integration' && <Cpu size={26} />}
-                      {svc.id === 'website-maintenance' && <ShieldCheck size={26} />}
-                    </div>
-
-                    <div>
-                      <h2 className="service-title">{svc.title}</h2>
-                      <p className="service-full-desc">{svc.shortDescription}</p>
-                    </div>
-                  </div>
-
-                  <div className="service-benefits-box">
-                    <h3 className="col-heading">Our Capabilities</h3>
-                    <ul className="service-check-list">
-                      {svc.benefits.map((b, i) => (
-                        <li key={i}>
-                          <CheckCircle2 size={16} className="check-icon" />
-                          <span>{b}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="service-footer-bar">
-                  <Link href="/contact" className="btn btn-primary service-cta-btn">
-                    <span>{svc.ctaText}</span>
-                    <ArrowRight size={16} className="service-cta-arrow" />
-                  </Link>
-                </div>
-              </div>
-            </ScrollReveal>
-          ))}
-        </div>
-
-        {/* Subtle Visual Divider */}
-        <div className="services-divider" aria-hidden="true" />
-
-        {/* 3. Why Work With Us Section */}
-        <div className="why-us-section">
+      {/* 2. CHOOSE YOUR SOLUTION (WHITE CARDS GRID) */}
+      <section className="section bg-primary pt-6">
+        <div className="container">
           <ScrollReveal delay={0}>
             <SectionHeader
-              title="Why Work With Us"
-              subtitle="We combine practical thinking, modern technology, and clear communication to build solutions that work for your business."
+              badge="Our Core Capabilities"
+              title="Choose Your Solution"
+              subtitle="Proven digital engineering tracks built for businesses seeking speed, reliability, and growth."
               centered={true}
             />
           </ScrollReveal>
 
-          <div className="why-us-grid">
-            {whyWorkWithUsItems.map((item, idx) => {
-              const IconComp = item.icon;
+          <div className="services-solutions-grid">
+            {servicesData.map((svc, idx) => {
+              const meta = serviceMeta[svc.id] || { category: 'Solution', timeline: 'Custom', tech: 'Modern Stack' };
               return (
-                <ScrollReveal key={idx} delay={100 + idx * 80}>
-                  <div className="studio-card why-us-card">
-                    <div className="why-us-icon-box">
-                      <IconComp size={24} />
+                <ScrollReveal key={svc.id} delay={100 + idx * 80}>
+                  <div className="path-card path-card-lg path-card-centered">
+                    <div>
+                      <div className="path-icon-box">
+                        {svc.id === 'web-development' && <Globe size={26} />}
+                        {svc.id === 'business-systems' && <LayoutDashboard size={26} />}
+                        {svc.id === 'ai-integration' && <Cpu size={26} />}
+                        {svc.id === 'website-maintenance' && <ShieldCheck size={26} />}
+                      </div>
+
+                      <span className="path-card-kicker">{meta.category}</span>
+                      <h2 className="path-card-title text-2xl font-bold mb-2">{svc.title}</h2>
+                      <p className="path-card-desc mb-6">{svc.shortDescription}</p>
+
+                      <div className="mb-6 bg-slate-50/80 p-4 rounded-xl border border-slate-100 text-left">
+                        <p className="text-xs font-bold text-navy uppercase tracking-wider mb-2.5 text-center">Key Capabilities</p>
+                        <ul className="space-y-2">
+                          {svc.benefits.map((b, i) => (
+                            <li key={i} className="flex items-start gap-2.5 text-xs md:text-sm text-slate-600">
+                              <CheckCircle2 size={16} className="text-blue-600 shrink-0 mt-0.5" />
+                              <span>{b}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
-                    <h3 className="why-us-card-title">{item.title}</h3>
-                    <p className="why-us-card-desc">{item.description}</p>
+
+                    <div className="w-full mt-auto">
+                      <div className="path-meta-strip">
+                        <div className="meta-item">
+                          <span className="meta-label">Est. Timeline</span>
+                          <span className="meta-value">{meta.timeline}</span>
+                        </div>
+                        <div className="meta-item">
+                          <span className="meta-label">Core Stack</span>
+                          <span className="meta-value">{meta.tech}</span>
+                        </div>
+                      </div>
+
+                      <Link 
+                        href="/contact" 
+                        className="contact-channel-action"
+                      >
+                        <span>{svc.ctaText}</span>
+                        <ArrowRight size={16} />
+                      </Link>
+                    </div>
                   </div>
                 </ScrollReveal>
               );
             })}
           </div>
         </div>
+      </section>
 
-        {/* 4. Final Start a Project CTA */}
-        <div className="services-cta-margin">
+      {/* 3. DARK FEATURE & ARCHITECTURE SHOWCASE SECTION */}
+      <section className="dark-feature-section">
+        <div className="dark-feature-glow" aria-hidden="true" />
+        <div className="container relative z-10 text-center">
+          <div className="curved-hero-badge">
+            <span className="badge-pulse-dot" />
+            <span>Technical Architecture</span>
+          </div>
+
+          <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
+            Is Your Infrastructure Ready for Modern AI & Cloud?
+          </h2>
+          <p className="text-slate-300 max-w-2xl mx-auto text-sm md:text-base mb-6">
+            Review the 6 core pillars SyntraLoop builds into every custom software solution to ensure high speed, security, and scalability.
+          </p>
+
+          <div className="dark-glass-grid text-left">
+            {techReadinessItems.map((item, idx) => {
+              const IconComp = item.icon;
+              return (
+                <ScrollReveal key={idx} delay={80 * idx} className="h-full">
+                  <div className="dark-glass-card">
+                    <div className="dark-glass-left">
+                      <div className="dark-glass-icon">
+                        <IconComp size={20} />
+                      </div>
+                      <div className="dark-glass-text">
+                        <h3 className="dark-glass-title">{item.title}</h3>
+                        <p className="dark-glass-desc">{item.desc}</p>
+                      </div>
+                    </div>
+                    <span className="dark-glass-tag">{item.tag}</span>
+                  </div>
+                </ScrollReveal>
+              );
+            })}
+          </div>
+
+          <div className="mt-8">
+            <Link href="/contact" className="btn btn-cyan-pill">
+              <span>Get Free Technical Assessment</span>
+              <ArrowRight size={16} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. FAQ & STILL HAVE QUESTIONS SECTION */}
+      <section className="section bg-secondary border-t border-slate-200">
+        <div className="container">
+          <ScrollReveal delay={0}>
+            <SectionHeader
+              badge="Common Inquiries"
+              title="Frequently Asked Questions"
+              subtitle="Everything you need to know about our engineering process, pricing models, and ongoing support."
+              centered={true}
+            />
+          </ScrollReveal>
+
+          <div className="max-w-3xl mx-auto mt-8">
+            <FAQAccordion items={servicesFaqItems} />
+          </div>
+
+          {/* Reference "Still Have Questions?" Box */}
           <ScrollReveal delay={200}>
-            <div className="studio-card final-cta-card">
-              <h2 className="cta-heading">Have an idea or a business challenge?</h2>
-              <p className="cta-subtext">
-                Tell us what you need, and let&apos;s explore how SyntraLoop can help.
-              </p>
-              <Link href="/contact" className="btn btn-primary btn-lg">
-                Start a Project
-                <ArrowRight size={18} />
-              </Link>
-            </div>
+            <StillHaveQuestions />
           </ScrollReveal>
         </div>
-      </div>
-
-      <style jsx>{`
-        .services-page-header {
-          max-width: 820px;
-          margin: 0 auto 3.5rem auto;
-          text-align: center;
-        }
-
-        .services-header-title {
-          font-size: 2.8rem;
-          line-height: 1.15;
-          margin-bottom: 1.25rem;
-          color: var(--text-navy);
-          letter-spacing: -0.03em;
-        }
-
-        @media (min-width: 768px) {
-          .services-header-title {
-            font-size: 3.8rem;
-          }
-        }
-
-        .services-header-subtext {
-          font-size: 1.18rem;
-          color: var(--text-slate);
-          line-height: 1.7;
-          max-width: 720px;
-          margin: 0 auto;
-        }
-
-        .services-detail-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 1.75rem;
-          margin-bottom: 2rem;
-        }
-
-        @media (min-width: 900px) {
-          .services-detail-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-
-        .service-detail-card {
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          height: 100%;
-          padding: 2.25rem;
-          position: relative;
-          background-color: #FFFFFF;
-          text-align: left;
-        }
-
-        .service-card-content {
-          display: flex;
-          flex-direction: column;
-          flex-grow: 1;
-        }
-
-        .service-header-row {
-          display: flex;
-          align-items: flex-start;
-          gap: 1.25rem;
-          margin-bottom: 1.5rem;
-          padding-bottom: 1.5rem;
-          border-bottom: 1px solid var(--border-color);
-          text-align: left;
-        }
-
-        .service-icon-box {
-          width: 52px;
-          height: 52px;
-          border-radius: var(--radius-md);
-          background-color: var(--bg-secondary);
-          border: 1px solid var(--border-color);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: var(--accent-blue);
-          flex-shrink: 0;
-        }
-
-        .service-title {
-          font-size: 1.5rem;
-          margin-bottom: 0.5rem;
-          color: var(--text-navy);
-          text-align: left;
-        }
-
-        .service-full-desc {
-          font-size: 0.975rem;
-          color: var(--text-slate);
-          line-height: 1.6;
-          text-align: left;
-        }
-
-        .service-benefits-box {
-          margin-bottom: 1.75rem;
-          text-align: left;
-          flex-grow: 1;
-        }
-
-        .col-heading {
-          font-size: 0.95rem;
-          margin-bottom: 0.85rem;
-          color: var(--text-navy);
-          font-weight: 700;
-          text-align: left;
-        }
-
-        .service-check-list {
-          list-style: none;
-          display: flex;
-          flex-direction: column;
-          gap: 0.65rem;
-          text-align: left;
-        }
-
-        .service-check-list li {
-          font-size: 0.9rem;
-          color: var(--text-slate);
-          display: flex;
-          align-items: flex-start;
-          gap: 0.6rem;
-          line-height: 1.5;
-          text-align: left;
-        }
-
-        .check-icon {
-          color: var(--accent-blue);
-          flex-shrink: 0;
-          margin-top: 2px;
-        }
-
-        .service-footer-bar {
-          display: flex;
-          justify-content: flex-end;
-          padding-top: 1.25rem;
-          border-top: 1px solid var(--border-color);
-          margin-top: auto;
-        }
-
-        .services-divider {
-          height: 1px;
-          background: linear-gradient(90deg, transparent, var(--border-color), transparent);
-          margin: 3.5rem 0;
-        }
-
-        .why-us-section {
-          margin-bottom: 4rem;
-          padding: 3.5rem 2rem;
-          background-color: var(--bg-secondary);
-          border: 1px solid var(--border-color);
-          border-radius: var(--radius-lg);
-        }
-
-        .why-us-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 1.5rem;
-          margin-top: 2.5rem;
-        }
-
-        @media (min-width: 640px) {
-          .why-us-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-
-        @media (min-width: 1024px) {
-          .why-us-grid {
-            grid-template-columns: repeat(4, 1fr);
-          }
-        }
-
-        .why-us-card {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
-          padding: 2rem 1.5rem;
-          height: 100%;
-          background-color: #FFFFFF;
-          border: 1px solid var(--border-color);
-          border-radius: var(--radius-md);
-          transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .why-us-card:hover {
-          transform: translateY(-2px);
-          border-color: #0057D8;
-          box-shadow: 0 6px 20px rgba(0, 87, 216, 0.08);
-        }
-
-        .why-us-icon-box {
-          width: 50px;
-          height: 50px;
-          border-radius: var(--radius-md);
-          background-color: var(--bg-secondary);
-          border: 1px solid var(--border-color);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: var(--accent-blue);
-          margin-bottom: 1.25rem;
-          transition: color 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .why-us-card:hover .why-us-icon-box {
-          box-shadow: 0 0 12px rgba(0, 87, 216, 0.25);
-        }
-
-        .why-us-card-title {
-          font-size: 1.1rem;
-          margin-bottom: 0.5rem;
-          color: var(--text-navy);
-          font-weight: 700;
-          text-align: center;
-        }
-
-        .why-us-card-desc {
-          font-size: 0.9875rem;
-          color: var(--text-slate);
-          line-height: 1.6;
-          text-align: center;
-        }
-
-        .services-cta-margin {
-          margin-top: 2rem;
-        }
-
-        .final-cta-card {
-          text-align: center;
-          padding: 4rem 2rem;
-          background-color: #FFFFFF;
-        }
-
-        .cta-heading {
-          font-size: 2.2rem;
-          margin-bottom: 1rem;
-          color: var(--text-navy);
-        }
-
-        .cta-subtext {
-          font-size: 1.05rem;
-          color: var(--text-slate);
-          max-width: 600px;
-          margin: 0 auto 2rem auto;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .why-us-card:hover {
-            transform: none !important;
-          }
-          .why-us-card:hover .why-us-icon-box {
-            box-shadow: none !important;
-          }
-        }
-      `}</style>
+      </section>
     </div>
   );
 }

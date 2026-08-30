@@ -2,8 +2,10 @@
 
 import React from 'react';
 import Link from 'next/link';
+import PageHero from '@/components/PageHero';
 import SectionHeader from '@/components/SectionHeader';
 import ScrollReveal from '@/components/ScrollReveal';
+import InteractiveTechWheel from '@/components/InteractiveTechWheel';
 import { 
   Target, 
   Compass, 
@@ -11,7 +13,13 @@ import {
   Code2, 
   Globe, 
   CheckCircle2, 
-  ArrowRight 
+  ArrowRight,
+  Cpu,
+  Layers,
+  Zap,
+  Lock,
+  Workflow,
+  Sparkles
 } from 'lucide-react';
 
 export default function AboutClient() {
@@ -19,475 +27,198 @@ export default function AboutClient() {
     {
       icon: Shield,
       title: "Security & Privacy First",
-      text: "We prioritize secure input validation, protected environment variables, and responsible handling of sensitive data in every build."
+      desc: "We prioritize secure input validation, protected environment variables, and responsible handling of sensitive data in every build.",
+      tag: "Zero-Trust Focus"
     },
     {
       icon: Code2,
       title: "Maintainable Code",
-      text: "We write clean, modular React, Next.js, and Python code that is easier to maintain, extend, and hand over."
+      desc: "We write clean, modular React, Next.js, and Python code that is easy to maintain, scale, and extend.",
+      tag: "Clean Architecture"
     },
     {
       icon: Globe,
       title: "International Standards",
-      text: "We follow practical standards for performance, accessibility, responsive design, and clear communication."
+      desc: "We follow practical standards for performance, accessibility, responsive design, and clear documentation.",
+      tag: "Global Compliance"
+    },
+    {
+      icon: Zap,
+      title: "Performance Driven",
+      desc: "Every asset, query, and animation is tuned for rapid interaction, smooth framerates, and minimal latency.",
+      tag: "Sub-Second UX"
+    }
+  ];
+
+  const techCategories = [
+    {
+      category: "Frontend & Interfaces",
+      tools: ["React 18", "Next.js 14", "Tailwind CSS", "Three.js", "TypeScript", "HTML5/CSS3"]
+    },
+    {
+      category: "Backend & Systems",
+      tools: ["Node.js", "Python", "FastAPI", "Express", "PostgreSQL", "REST APIs"]
+    },
+    {
+      category: "AI & Automation",
+      tools: ["OpenAI API", "Claude API", "LangChain", "Vector DBs", "Prompt Pipelines", "Automations"]
+    },
+    {
+      category: "Cloud & Reliability",
+      tools: ["Vercel", "AWS Cloud", "Git / GitHub", "Docker", "Sentry", "CI/CD Pipelines"]
     }
   ];
 
   return (
-    <div className="about-page-wrapper section">
-      {/* Subtle Technical Grid Background */}
-      <div className="services-grid-bg" aria-hidden="true" />
-      <div className="services-corner-glow-left" aria-hidden="true" />
-      <div className="services-corner-glow-right" aria-hidden="true" />
+    <div className="about-page-wrapper">
+      {/* 1. CURVED DEEP-NAVY HERO SECTION */}
+      <PageHero
+        badge="Company & Purpose"
+        title="Engineering Modern"
+        highlightText="Digital Systems"
+        subtitle="SyntraLoop transforms business ideas into modern websites, custom business systems, AI integrations, and reliable digital solutions."
+        ctaText="Work With Us"
+        ctaHref="/contact"
+        secondaryCtaText="Explore Capabilities"
+        secondaryCtaHref="/services"
+      />
 
-      <div className="container relative z-10">
-        {/* SECTION 1 — ABOUT HERO / INTRO */}
-        <section className="about-hero-section">
-          <div className="about-hero-content text-center">
-            <h1 className="hero-heading animate-fade-in-up delay-1">
-              Engineering Modern Digital Solutions
-            </h1>
-
-            <p className="hero-subtext animate-fade-in-up delay-2">
-              SyntraLoop transforms business ideas into modern websites, business systems, AI integrations, and data-driven digital solutions.
-            </p>
-          </div>
-
-          {/* Equal Side-by-Side Cards */}
-          <div className="about-mission-grid">
-            <ScrollReveal delay={100}>
-              <div className="studio-card about-mission-card">
-                <div className="card-icon-box">
-                  <Target size={24} />
-                </div>
-                <h2 className="card-title">Positioning & Mission</h2>
-                <p className="card-text">
-                  We help startups, small and medium-sized businesses, founders, and international clients turn practical business challenges into reliable, scalable software solutions.
-                </p>
-              </div>
-            </ScrollReveal>
-
-            <ScrollReveal delay={180}>
-              <div className="studio-card about-mission-card">
-                <div className="card-icon-box">
-                  <Compass size={24} />
-                </div>
-                <h2 className="card-title">Long-Term Direction</h2>
-                <p className="card-text">
-                  Our long-term direction is centered on engineering craft, clean software architecture, transparent communication, and lasting value for every client.
-                </p>
-              </div>
-            </ScrollReveal>
-          </div>
-        </section>
-
-        {/* SECTION 2 — OUR PRINCIPLES */}
-        <section className="about-principles-section">
+      {/* 2. MISSION & DIRECTION (WHITE CARDS GRID) */}
+      <section className="section bg-primary pt-6">
+        <div className="container">
           <ScrollReveal delay={0}>
             <SectionHeader
-              title="Our Principles"
-              subtitle="The standards that guide every codebase we build, every API we integrate, and every project we deliver."
+              badge="Our Foundation"
+              title="Built for Sustainable Value"
+              subtitle="We bridge business requirements and modern software engineering with clarity, craft, and dependability."
               centered={true}
             />
           </ScrollReveal>
 
-          <div className="principles-grid">
+          <div className="path-cards-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))' }}>
+            <ScrollReveal delay={100}>
+              <div className="path-card path-card-lg path-card-centered">
+                <div>
+                  <div className="path-icon-box">
+                    <Target size={26} />
+                  </div>
+                  <span className="path-card-kicker">Core Identity</span>
+                  <h2 className="path-card-title text-2xl font-bold mb-2">Positioning & Mission</h2>
+                  <p className="path-card-desc mb-6">
+                    We help startups, small and medium-sized businesses, founders, and international clients turn practical business challenges into reliable, scalable software solutions.
+                  </p>
+                </div>
+
+                <div className="w-full mt-auto">
+                  <div className="path-meta-strip">
+                    <div className="meta-item">
+                      <span className="meta-label">Focus</span>
+                      <span className="meta-value">Engineering Craft</span>
+                    </div>
+                    <div className="meta-item">
+                      <span className="meta-label">Audience</span>
+                      <span className="meta-value">Global SMBs & Startups</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={180}>
+              <div className="path-card path-card-lg path-card-centered">
+                <div>
+                  <div className="path-icon-box">
+                    <Compass size={26} />
+                  </div>
+                  <span className="path-card-kicker">Vision</span>
+                  <h2 className="path-card-title text-2xl font-bold mb-2">Long-Term Direction</h2>
+                  <p className="path-card-desc mb-6">
+                    Our long-term direction is centered on engineering craft, clean software architecture, transparent communication, and lasting value for every client we collaborate with.
+                  </p>
+                </div>
+
+                <div className="w-full mt-auto">
+                  <div className="path-meta-strip">
+                    <div className="meta-item">
+                      <span className="meta-label">Approach</span>
+                      <span className="meta-value">Transparent Sprints</span>
+                    </div>
+                    <div className="meta-item">
+                      <span className="meta-label">Result</span>
+                      <span className="meta-value">Production Quality</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ScrollReveal>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. DARK FEATURE & PRINCIPLES SHOWCASE SECTION */}
+      <section className="dark-feature-section">
+        <div className="dark-feature-glow" aria-hidden="true" />
+        <div className="container relative z-10 text-center">
+          <div className="curved-hero-badge">
+            <span className="badge-pulse-dot" />
+            <span>Guiding Principles</span>
+          </div>
+
+          <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-3">
+            Standards Behind Every Codebase We Ship
+          </h2>
+          <p className="text-slate-300 max-w-2xl mx-auto text-sm md:text-base mb-6">
+            The core engineering ethos that drives our architectural decisions, security practices, and system designs.
+          </p>
+
+          <div className="dark-glass-grid text-left">
             {principles.map((item, idx) => {
               const IconComp = item.icon;
               return (
-                <ScrollReveal key={idx} delay={100 + idx * 80}>
-                  <div className="studio-card principle-card">
-                    <div className="principle-icon-box">
-                      <IconComp size={24} />
+                <ScrollReveal key={idx} delay={80 * idx}>
+                  <div className="dark-glass-card">
+                    <div className="dark-glass-left">
+                      <div className="dark-glass-icon">
+                        <IconComp size={18} />
+                      </div>
+                      <div>
+                        <h3 className="dark-glass-title">{item.title}</h3>
+                        <p className="dark-glass-desc">{item.desc}</p>
+                      </div>
                     </div>
-                    <h3 className="principle-title">{item.title}</h3>
-                    <p className="principle-text">{item.text}</p>
+                    <span className="dark-glass-tag">{item.tag}</span>
                   </div>
                 </ScrollReveal>
               );
             })}
           </div>
-        </section>
 
-        {/* SECTION 3 — CURRENT CAPABILITIES */}
-        <section className="about-capabilities-section">
+          <div className="mt-8">
+            <Link href="/contact" className="btn btn-cyan-pill">
+              <span>Start a Project With Us</span>
+              <ArrowRight size={16} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. MODERN TECH STACK MATRIX */}
+      <section className="section bg-primary">
+        <div className="container">
+          <ScrollReveal delay={0}>
+            <SectionHeader
+              badge="Modern Tooling"
+              title="Technology Stack & Tools"
+              subtitle="We build with modern, battle-tested technologies that ensure performance, maintainability, and rapid development."
+              centered={true}
+            />
+          </ScrollReveal>
+
           <ScrollReveal delay={100}>
-            <div className="studio-card capabilities-box">
-              <div className="capabilities-header text-center">
-                <h2 className="cap-heading">Current Capabilities</h2>
-                <p className="cap-subtext">
-                  Technologies and tools we can currently use, deploy, and maintain.
-                </p>
-              </div>
-
-              <div className="capabilities-columns-grid">
-                {/* Column 1: Frontend Development */}
-                <ScrollReveal delay={150}>
-                  <div className="cap-column">
-                    <h3 className="cap-col-label">Frontend Development</h3>
-                    <ul className="cap-bullet-list">
-                      <li>
-                        <CheckCircle2 size={16} className="bullet-check-icon" />
-                        <span>React and Next.js</span>
-                      </li>
-                      <li>
-                        <CheckCircle2 size={16} className="bullet-check-icon" />
-                        <span>JavaScript and TypeScript</span>
-                      </li>
-                      <li>
-                        <CheckCircle2 size={16} className="bullet-check-icon" />
-                        <span>CSS and Tailwind CSS</span>
-                      </li>
-                      <li>
-                        <CheckCircle2 size={16} className="bullet-check-icon" />
-                        <span>Responsive design and accessibility</span>
-                      </li>
-                    </ul>
-                  </div>
-                </ScrollReveal>
-
-                {/* Column 2: Backend & Integrations */}
-                <ScrollReveal delay={230}>
-                  <div className="cap-column">
-                    <h3 className="cap-col-label">Backend & Integrations</h3>
-                    <ul className="cap-bullet-list">
-                      <li>
-                        <CheckCircle2 size={16} className="bullet-check-icon" />
-                        <span>Python and Node.js services</span>
-                      </li>
-                      <li>
-                        <CheckCircle2 size={16} className="bullet-check-icon" />
-                        <span>REST APIs and webhooks</span>
-                      </li>
-                      <li>
-                        <CheckCircle2 size={16} className="bullet-check-icon" />
-                        <span>Databases and SQL schemas</span>
-                      </li>
-                      <li>
-                        <CheckCircle2 size={16} className="bullet-check-icon" />
-                        <span>AI integrations and workflow tools</span>
-                      </li>
-                    </ul>
-                  </div>
-                </ScrollReveal>
-              </div>
-            </div>
+            <InteractiveTechWheel />
           </ScrollReveal>
-        </section>
-
-        {/* SECTION 4 — FINAL CTA */}
-        <section className="about-cta-section">
-          <ScrollReveal delay={200}>
-            <div className="studio-card final-cta-card">
-              <h2 className="cta-heading">Have an idea or a business challenge?</h2>
-              <p className="cta-subtext">
-                Tell us what you need, and let&apos;s explore how SyntraLoop can help.
-              </p>
-              <Link href="/contact" className="btn btn-primary btn-lg cta-btn">
-                <span>Contact Us</span>
-                <ArrowRight size={18} className="cta-arrow-icon" />
-              </Link>
-            </div>
-          </ScrollReveal>
-        </section>
-      </div>
-
-      <style jsx>{`
-        .about-page-wrapper {
-          position: relative;
-          padding-top: 5rem;
-          padding-bottom: 5rem;
-        }
-
-        .about-hero-section {
-          margin-bottom: 4.5rem;
-        }
-
-        .about-hero-content {
-          max-width: 820px;
-          margin: 0 auto 3rem auto;
-        }
-
-        .hero-heading {
-          font-size: 2.8rem;
-          line-height: 1.15;
-          margin-bottom: 1.25rem;
-          color: var(--text-navy);
-          letter-spacing: -0.03em;
-        }
-
-        @media (min-width: 768px) {
-          .hero-heading {
-            font-size: 3.8rem;
-          }
-        }
-
-        .hero-subtext {
-          font-size: 1.18rem;
-          color: var(--text-slate);
-          line-height: 1.7;
-          max-width: 720px;
-          margin: 0 auto;
-        }
-
-        .about-mission-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 1.75rem;
-        }
-
-        @media (min-width: 768px) {
-          .about-mission-grid {
-            grid-template-columns: 1fr 1fr;
-          }
-        }
-
-        .about-mission-card {
-          display: flex;
-          flex-direction: column;
-          height: 100%;
-          padding: 2.25rem;
-          background-color: #FFFFFF;
-          border: 1px solid var(--border-color);
-          border-radius: var(--radius-lg);
-          text-align: left;
-          transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .about-mission-card:hover {
-          transform: translateY(-2px);
-          border-color: #0057D8;
-          box-shadow: 0 8px 24px rgba(0, 87, 216, 0.08);
-        }
-
-        .card-icon-box {
-          width: 48px;
-          height: 48px;
-          border-radius: var(--radius-md);
-          background-color: var(--bg-secondary);
-          border: 1px solid var(--border-color);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: var(--accent-blue);
-          margin-bottom: 1.5rem;
-          flex-shrink: 0;
-        }
-
-        .card-title {
-          font-size: 1.45rem;
-          margin-bottom: 0.75rem;
-          color: var(--text-navy);
-          font-weight: 700;
-        }
-
-        .card-text {
-          font-size: 0.975rem;
-          color: var(--text-slate);
-          line-height: 1.65;
-        }
-
-        .about-principles-section {
-          margin-bottom: 4.5rem;
-        }
-
-        .principles-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 1.5rem;
-          margin-top: 2.5rem;
-        }
-
-        @media (min-width: 640px) {
-          .principles-grid {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-
-        @media (min-width: 1024px) {
-          .principles-grid {
-            grid-template-columns: repeat(3, 1fr);
-          }
-        }
-
-        .principle-card {
-          display: flex;
-          flex-direction: column;
-          height: 100%;
-          padding: 2rem 1.75rem;
-          background-color: #FFFFFF;
-          border: 1px solid var(--border-color);
-          border-radius: var(--radius-md);
-          text-align: left;
-          transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .principle-card:hover {
-          transform: translateY(-2px);
-          border-color: #0057D8;
-          box-shadow: 0 6px 20px rgba(0, 87, 216, 0.08);
-        }
-
-        .principle-icon-box {
-          width: 46px;
-          height: 46px;
-          border-radius: var(--radius-md);
-          background-color: var(--bg-secondary);
-          border: 1px solid var(--border-color);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: var(--accent-blue);
-          margin-bottom: 1.25rem;
-          transition: box-shadow 0.25s ease;
-        }
-
-        .principle-card:hover .principle-icon-box {
-          box-shadow: 0 0 12px rgba(0, 87, 216, 0.25);
-        }
-
-        .principle-title {
-          font-size: 1.2rem;
-          margin-bottom: 0.6rem;
-          color: var(--text-navy);
-          font-weight: 700;
-        }
-
-        .principle-text {
-          font-size: 0.925rem;
-          color: var(--text-slate);
-          line-height: 1.6;
-        }
-
-        .about-capabilities-section {
-          margin-bottom: 4.5rem;
-        }
-
-        .capabilities-box {
-          padding: 3.5rem 2.25rem;
-          background-color: var(--bg-secondary);
-          border: 1px solid var(--border-color);
-          border-radius: var(--radius-lg);
-        }
-
-        .cap-heading {
-          font-size: 2rem;
-          margin-bottom: 0.5rem;
-          color: var(--text-navy);
-          font-weight: 700;
-        }
-
-        .cap-subtext {
-          font-size: 1.025rem;
-          color: var(--text-slate);
-          margin-bottom: 2.75rem;
-        }
-
-        .capabilities-columns-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 2rem;
-        }
-
-        @media (min-width: 768px) {
-          .capabilities-columns-grid {
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-          }
-        }
-
-        .cap-column {
-          background-color: #FFFFFF;
-          padding: 2rem;
-          border: 1px solid var(--border-color);
-          border-radius: var(--radius-md);
-          text-align: left;
-          height: 100%;
-        }
-
-        .cap-col-label {
-          font-size: 1.2rem;
-          color: var(--accent-blue);
-          font-weight: 700;
-          margin-bottom: 1.25rem;
-          padding-bottom: 0.75rem;
-          border-bottom: 1px solid var(--border-color);
-        }
-
-        .cap-bullet-list {
-          list-style: none;
-          display: flex;
-          flex-direction: column;
-          gap: 0.85rem;
-        }
-
-        .cap-bullet-list li {
-          display: flex;
-          align-items: center;
-          gap: 0.65rem;
-          font-size: 0.95rem;
-          color: var(--text-slate);
-          line-height: 1.5;
-        }
-
-        .bullet-check-icon {
-          color: var(--accent-blue);
-          flex-shrink: 0;
-        }
-
-        .about-cta-section {
-          margin-top: 1rem;
-        }
-
-        .final-cta-card {
-          text-align: center;
-          padding: 4.5rem 2rem;
-          background-color: #FFFFFF;
-          border: 1px solid var(--border-color);
-          border-radius: var(--radius-lg);
-        }
-
-        .cta-heading {
-          font-size: 2.2rem;
-          margin-bottom: 1rem;
-          color: var(--text-navy);
-        }
-
-        .cta-subtext {
-          font-size: 1.05rem;
-          color: var(--text-slate);
-          max-width: 600px;
-          margin: 0 auto 2rem auto;
-        }
-
-        .cta-btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .cta-btn:hover .cta-arrow-icon {
-          transform: translateX(4px);
-        }
-
-        .cta-arrow-icon {
-          transition: transform 0.25s ease;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .about-mission-card:hover,
-          .principle-card:hover {
-            transform: none !important;
-          }
-          .principle-card:hover .principle-icon-box {
-            box-shadow: none !important;
-          }
-          .cta-btn:hover .cta-arrow-icon {
-            transform: none !important;
-          }
-        }
-      `}</style>
+        </div>
+      </section>
     </div>
   );
 }

@@ -2,11 +2,24 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Mail, MessageSquare, Linkedin, Facebook, Instagram, Twitter } from 'lucide-react';
+import { Mail, MessageSquare, Linkedin, Facebook, Instagram } from 'lucide-react';
+
+const XIcon = ({ size = 16, className = "" }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
+    aria-hidden="true"
+  >
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </svg>
+);
 
 export default function Footer() {
   const contactEmail = "syntraloop.contact@gmail.com";
-  const whatsappNumber = "+94 00 000 0000"; // Placeholder number - easy to replace
+  const whatsappNumber = "+94 74 226 6041";
 
   const socialLinks = {
     linkedin: "https://www.linkedin.com/company/syntraloop",
@@ -40,7 +53,9 @@ export default function Footer() {
               </div>
               <div className="placeholder-item">
                 <MessageSquare size={14} className="placeholder-icon" />
-                <span>WhatsApp: {whatsappNumber}</span>
+                <a href="https://wa.me/94742266041" target="_blank" rel="noopener noreferrer" className="email-link">
+                  WhatsApp: {whatsappNumber}
+                </a>
               </div>
             </div>
           </div>
@@ -114,10 +129,10 @@ export default function Footer() {
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="social-btn" 
-                aria-label="SyntraLoop X Twitter"
-                title="SyntraLoop X (Twitter)"
+                aria-label="SyntraLoop on X"
+                title="SyntraLoop on X"
               >
-                <Twitter size={16} />
+                <XIcon size={15} />
               </a>
             </div>
           </div>
@@ -126,17 +141,16 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="footer-bottom-bar">
           <div className="copyright-text">
-            © 2026 SyntraLoop. All rights reserved.
+            &copy; {new Date().getFullYear()} SyntraLoop. All rights reserved.
           </div>
 
-          <div className="legal-links">
-            <Link href="/privacy">Privacy Policy</Link>
-            <span className="dot-divider">•</span>
-            <Link href="/terms">Terms of Service</Link>
+          <div className="footer-legal-links">
+            <Link href="/privacy" className="legal-link">Privacy Policy</Link>
+            <span className="legal-sep">&bull;</span>
+            <Link href="/terms" className="legal-link">Terms of Service</Link>
           </div>
         </div>
       </div>
-
     </footer>
   );
 }

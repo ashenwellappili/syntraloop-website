@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ArrowRight } from 'lucide-react';
+import ThemeToggle from '@/components/ThemeToggle';
 
 export default function Header() {
   const pathname = usePathname();
@@ -26,11 +27,13 @@ export default function Header() {
 
   // Lock/unlock body scroll when mobile menu toggles
   const toggleMobileMenu = () => {
-    setMobileMenuOpen((prev) => {
-      const nextState = !prev;
-      document.body.style.overflow = nextState ? 'hidden' : '';
-      return nextState;
-    });
+    const nextState = !mobileMenuOpen;
+    setMobileMenuOpen(nextState);
+    if (nextState) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
   };
 
   const navItems = [
@@ -41,8 +44,10 @@ export default function Header() {
     { href: '/contact', label: 'Contact' },
   ];
 
+  const isTransparent = !scrolled;
+
   return (
-    <header className={`sticky-header ${scrolled ? 'header-scrolled' : ''}`}>
+    <header className={`sticky-header ${scrolled ? 'header-scrolled' : ''} ${isTransparent ? 'header-dark-transparent' : ''}`}>
       <a href="#main-content" className="skip-to-content">
         Skip to content
       </a>
@@ -84,8 +89,10 @@ export default function Header() {
           </ul>
         </nav>
 
-        {/* Action Button & Mobile Toggle */}
+        {/* Action Button, Theme Toggle & Mobile Toggle */}
         <div className="header-actions">
+          <ThemeToggle />
+
           <Link href="/contact" className="btn btn-primary header-cta">
             Contact Us
             <ArrowRight size={16} />
@@ -129,6 +136,11 @@ export default function Header() {
           </nav>
 
           <div className="mobile-drawer-cta">
+            <div className="flex items-center justify-between gap-3 mb-3 p-2 bg-slate-900/40 rounded-xl border border-slate-800">
+              <span className="text-sm font-semibold text-slate-300">Theme Mode</span>
+              <ThemeToggle />
+            </div>
+
             <Link
               href="/contact"
               className="btn btn-primary w-full"

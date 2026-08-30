@@ -35,8 +35,8 @@ export default function Interactive3DLogo() {
     // Scene
     const scene = new THREE.Scene();
 
-    // Camera
-    const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+    // Camera with broad perspective for large emblem
+    const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
     camera.position.set(0, 0, 7.2);
 
     // WebGL Renderer
@@ -59,8 +59,8 @@ export default function Interactive3DLogo() {
     const logoGroup = new THREE.Group();
     scene.add(logoGroup);
 
-    // 1. Infinity Loop Geometry
-    const curve = new InfinityLoopCurve(2.2, 0.42);
+    // 1. Infinity Loop Geometry (Full scale large emblem)
+    const curve = new InfinityLoopCurve(2.2, 0.45);
     const tubeGeometry = new THREE.TubeGeometry(curve, 180, 0.36, 32, true);
 
     // 2. SyntraLoop Navy Metallic Material
@@ -96,7 +96,7 @@ export default function Interactive3DLogo() {
     logoGroup.add(centralNode);
 
     // 5. Outer Halo Ring around Central Node
-    const haloGeometry = new THREE.RingGeometry(0.6, 0.68, 48);
+    const haloGeometry = new THREE.RingGeometry(0.60, 0.68, 48);
     const haloMaterial = new THREE.MeshBasicMaterial({
       color: new THREE.Color(0x38bdf8),
       side: THREE.DoubleSide,
@@ -120,7 +120,7 @@ export default function Interactive3DLogo() {
     const energyOrb2 = new THREE.Mesh(orbGeometry, orbMaterial2);
     logoGroup.add(energyOrb2);
 
-    // 7. Ambient Particle Cloud
+    // 7. Ambient Particle Cloud (Smooth Circular Points)
     const particleCount = 42;
     const particleGeometry = new THREE.BufferGeometry();
     const particlePositions = new Float32Array(particleCount * 3);
@@ -132,11 +132,31 @@ export default function Interactive3DLogo() {
       particlePositions[i * 3 + 2] = (Math.random() - 0.5) * 1.5;
     }
     particleGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+
+    // Circular particle texture generator
+    const circleCanvas = document.createElement('canvas');
+    circleCanvas.width = 32;
+    circleCanvas.height = 32;
+    const cCtx = circleCanvas.getContext('2d');
+    if (cCtx) {
+      const grad = cCtx.createRadialGradient(16, 16, 0, 16, 16, 16);
+      grad.addColorStop(0, 'rgba(0, 87, 216, 0.9)');
+      grad.addColorStop(0.5, 'rgba(56, 189, 248, 0.5)');
+      grad.addColorStop(1, 'rgba(0, 87, 216, 0)');
+      cCtx.fillStyle = grad;
+      cCtx.beginPath();
+      cCtx.arc(16, 16, 16, 0, Math.PI * 2);
+      cCtx.fill();
+    }
+    const particleTexture = new THREE.CanvasTexture(circleCanvas);
+
     const particleMaterial = new THREE.PointsMaterial({
-      color: 0x0057d8,
-      size: 0.07,
+      map: particleTexture,
+      size: 0.14,
       transparent: true,
-      opacity: 0.6,
+      opacity: 0.7,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
     });
     const particles = new THREE.Points(particleGeometry, particleMaterial);
     logoGroup.add(particles);
@@ -157,14 +177,24 @@ export default function Interactive3DLogo() {
     pointLight.position.set(0, 0, 2);
     scene.add(pointLight);
 
-    // Dynamic Sizing
+    // Dynamic Responsive Sizing with Auto-Padding
     const handleSizeUpdate = () => {
       if (!container || !renderer || !camera) return;
       const rect = container.getBoundingClientRect();
-      const w = rect.width || container.clientWidth || 480;
-      const h = rect.height || container.clientHeight || 420;
+      const w = rect.width || container.clientWidth || 550;
+      const h = rect.height || container.clientHeight || 480;
       if (w <= 0 || h <= 0) return;
-      camera.aspect = w / h;
+      
+      const aspect = w / h;
+      camera.aspect = aspect;
+
+      // Adjust camera distance to guarantee full visibility of large emblem across all aspect ratios
+      if (aspect < 1.45) {
+        camera.position.z = 7.2 * (1.45 / Math.max(aspect, 0.72));
+      } else {
+        camera.position.z = 7.2;
+      }
+
       camera.updateProjectionMatrix();
       renderer.setSize(w, h, true);
     };
@@ -188,10 +218,10 @@ export default function Interactive3DLogo() {
       const normX = ((e.clientX - rect.left) / (rect.width || window.innerWidth)) * 2 - 1;
       const normY = -(((e.clientY - rect.top) / (rect.height || window.innerHeight)) * 2 - 1);
 
-      targetRotY = normX * 0.55;
-      targetRotX = normY * 0.4;
-      targetPosX = normX * 0.22;
-      targetPosY = normY * 0.16;
+      targetRotY = normX * 0.45;
+      targetRotX = normY * 0.32;
+      targetPosX = normX * 0.10;
+      targetPosY = normY * 0.08;
     };
 
     window.addEventListener('mousemove', handleMouseMove);
@@ -258,6 +288,7 @@ export default function Interactive3DLogo() {
       haloMaterial.dispose();
       orbMaterial1.dispose();
       orbMaterial2.dispose();
+      particleTexture.dispose();
       particleMaterial.dispose();
       renderer.dispose();
 
