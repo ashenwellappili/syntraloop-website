@@ -4220,3 +4220,75 @@ a {
   margin-top: 0.4rem;
 }
 
+/* Highlighted Quick Prompt Chip */
+.chatbot-quick-btn.highlight-btn {
+  background: linear-gradient(135deg, rgba(0, 210, 255, 0.15) 0%, rgba(0, 87, 216, 0.15) 100%);
+  border-color: #0057D8;
+  color: #0057D8;
+  font-weight: 700;
+}
+
+[data-theme="dark"] .chatbot-quick-btn.highlight-btn {
+  background: linear-gradient(135deg, rgba(0, 210, 255, 0.2) 0%, rgba(0, 87, 216, 0.25) 100%);
+  border-color: #38BDF8;
+  color: #38BDF8;
+}
+
+/* Interactive Option Chips inside Bot Bubbles */
+.chatbot-bubble-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.65rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed rgba(100, 116, 139, 0.2);
+}
+
+.chatbot-bubble-opt-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  color: var(--text-navy);
+  font-size: 0.775rem;
+  font-weight: 600;
+  padding: 0.45rem 0.7rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.chatbot-bubble-opt-btn .opt-arrow {
+  color: var(--accent-blue);
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+  margin-left: 0.5rem;
+}
+
+.chatbot-bubble-opt-btn:hover {
+  background: #EFF6FF;
+  border-color: #0057D8;
+  color: #0057D8;
+  transform: translateX(2px);
+}
+
+.chatbot-bubble-opt-btn:hover .opt-arrow {
+  transform: translateX(3px);
+}
+
+[data-theme="dark"] .chatbot-bubble-opt-btn {
+  background: #081426;
+  border-color: #1A2C46;
+  color: #E2E8F0;
+}
+
+[data-theme="dark"] .chatbot-bubble-opt-btn:hover {
+  background: #0D2244;
+  border-color: #38BDF8;
+  color: #38BDF8;
+}
+
+

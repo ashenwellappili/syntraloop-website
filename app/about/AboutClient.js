@@ -1,11 +1,15 @@
 "use client";
 
 import React from 'react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import PageHero from '@/components/PageHero';
 import SectionHeader from '@/components/SectionHeader';
 import ScrollReveal from '@/components/ScrollReveal';
-import InteractiveTechWheel from '@/components/InteractiveTechWheel';
+
+const InteractiveTechWheel = dynamic(() => import('@/components/InteractiveTechWheel'), {
+  ssr: false,
+});
 import { 
   Target, 
   Compass, 
