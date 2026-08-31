@@ -42,6 +42,8 @@ const securityHeaders = [
 
 const nextConfig = {
   reactStrictMode: true,
+  poweredByHeader: false,
+  productionBrowserSourceMaps: false,
   images: {
     unoptimized: true,
   },
