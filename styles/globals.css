@@ -2360,13 +2360,13 @@ a {
   position: relative;
   background: linear-gradient(180deg, #071530 0%, #091C3E 50%, #0047B3 100%);
   color: #FFFFFF;
-  padding: 5.25rem 0 3.75rem 0;
+  padding: 5.5rem 0 4.5rem 0;
   overflow: hidden;
 }
 
 @media (min-width: 768px) {
   .curved-page-hero {
-    padding: 5.75rem 0 4.25rem 0;
+    padding: 6rem 0 5rem 0;
   }
 }
 
@@ -2523,18 +2523,30 @@ a {
 
 .curved-hero-wave {
   position: absolute;
-  bottom: 0;
+  bottom: -1px;
   left: 0;
   width: 100%;
-  height: 42px;
+  height: 52px;
   pointer-events: none;
   z-index: 5;
+  transform: translateY(1px);
+}
+
+@media (min-width: 768px) {
+  .curved-hero-wave {
+    height: 68px;
+  }
 }
 
 .wave-svg {
   width: 100%;
   height: 100%;
   display: block;
+}
+
+.hero-wave-fill {
+  fill: var(--bg-primary, #FFFFFF);
+  transition: fill 0.3s ease;
 }
 
 /* 2. White Structured Path Cards Grid */

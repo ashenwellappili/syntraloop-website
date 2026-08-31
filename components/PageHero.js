@@ -64,17 +64,17 @@ export default function PageHero({
         </div>
       </div>
 
-      {/* Smooth Organic Wave Divider Transition to White Page Body */}
+      {/* Signature Curved Wave Divider */}
       <div className="curved-hero-wave" aria-hidden="true">
         <svg 
-          viewBox="0 0 1440 84" 
+          viewBox="0 0 1440 90" 
           fill="none" 
           xmlns="http://www.w3.org/2000/svg"
           preserveAspectRatio="none"
           className="wave-svg"
         >
           <path 
-            d="M0,32 C360,75 1080,-15 1440,38 L1440,84 L0,84 Z" 
+            d="M0,36 C380,85 1060,-10 1440,42 L1440,90 L0,90 Z" 
             className="hero-wave-fill"
           />
         </svg>

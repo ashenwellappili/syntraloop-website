@@ -272,14 +272,14 @@ export default function Home() {
         {/* Signature Curved Bottom Wave */}
         <div className="curved-hero-wave" aria-hidden="true">
           <svg
-            viewBox="0 0 1440 64"
+            viewBox="0 0 1440 70"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="none"
             className="wave-svg"
           >
             <path
-              d="M0,0 C320,55 600,64 720,64 C840,64 1120,55 1440,0 L1440,64 L0,64 Z"
+              d="M0,10 C320,65 600,70 720,70 C840,70 1120,65 1440,10 L1440,70 L0,70 Z"
               className="hero-wave-fill"
             />
           </svg>
