@@ -27,6 +27,7 @@ import {
 } from 'lucide-react';
 import { getContactEmail, getWhatsAppNumber, getWhatsAppUrl, getMailtoUrl } from '@/utils/contactInfo';
 import { trackEvent } from '@/utils/analytics';
+import LoadingButton from '@/components/LoadingButton';
 
 export default function ContactClient() {
   const contactEmail = getContactEmail();
@@ -520,20 +521,15 @@ export default function ContactClient() {
                   </p>
                 )}
 
-                <button 
+                <LoadingButton 
                   type="submit" 
-                  disabled={isSubmitting} 
-                  className="assessment-submit-btn"
+                  isLoading={isSubmitting} 
+                  loadingText="Preparing Assessment..."
+                  className="assessment-submit-btn w-full"
                 >
-                  {isSubmitting ? (
-                    <span>Submitting Request...</span>
-                  ) : (
-                    <>
-                      <span>Submit Project Assessment</span>
-                      <Send size={18} />
-                    </>
-                  )}
-                </button>
+                  <span>Submit Project Assessment</span>
+                  <Send size={18} />
+                </LoadingButton>
               </form>
             </div>
           </ScrollReveal>

@@ -19,7 +19,8 @@ import {
   ChevronDown,
   CheckCircle2,
   ListFilter,
-  PhoneCall
+  PhoneCall,
+  Loader2
 } from 'lucide-react';
 import { getContactEmail, getWhatsAppNumber, getWhatsAppUrl } from '@/utils/contactInfo';
 
@@ -1415,11 +1416,15 @@ export default function Chatbot() {
               />
               <button
                 type="submit"
-                disabled={!inputValue.trim()}
+                disabled={!inputValue.trim() || isTyping}
                 className="chatbot-send-btn"
                 aria-label="Send message"
               >
-                <Send size={16} />
+                {isTyping ? (
+                  <Loader2 size={16} className="animate-spin text-blue-600" />
+                ) : (
+                  <Send size={16} />
+                )}
               </button>
             </form>
 

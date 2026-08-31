@@ -5,24 +5,28 @@ import Link from 'next/link';
 import { Send, CheckCircle2, MessageSquare, Mail, ArrowRight } from 'lucide-react';
 import { getContactEmail, getMailtoUrl } from '@/utils/contactInfo';
 import { ObfuscatedEmail } from '@/components/ObfuscatedContact';
+import LoadingButton from '@/components/LoadingButton';
 
 export default function StillHaveQuestions() {
   const [question, setQuestion] = useState('');
   const [email, setEmail] = useState('');
+  const [isSending, setIsSending] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (question.trim() && email.trim()) {
+      setIsSending(true);
       const subject = `[SyntraLoop Inquiry] Question from ${email.trim()}`;
       const body = `Hello SyntraLoop Team,\n\nI have a question:\n\n"${question.trim()}"\n\nPlease respond to me at: ${email.trim()}\n\nBest regards,\n${email.trim()}`;
       
       const mailtoUrl = getMailtoUrl(subject, body);
-      
-      // Trigger user's email client / mail handler
       window.location.href = mailtoUrl;
 
-      setSubmitted(true);
+      setTimeout(() => {
+        setIsSending(false);
+        setSubmitted(true);
+      }, 300);
     }
   };
 
@@ -74,10 +78,15 @@ export default function StillHaveQuestions() {
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary still-submit-btn">
+          <LoadingButton 
+            type="submit" 
+            isLoading={isSending} 
+            loadingText="Sending..."
+            className="still-submit-btn"
+          >
             <span>Send Question</span>
             <Send size={15} />
-          </button>
+          </LoadingButton>
         </form>
       )}
     </div>
