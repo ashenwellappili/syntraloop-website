@@ -3,6 +3,7 @@
 import React from 'react';
 import PageHero from '@/components/PageHero';
 import ScrollReveal from '@/components/ScrollReveal';
+import { ObfuscatedEmail } from '@/components/ObfuscatedContact';
 
 export default function TermsPage() {
   return (
@@ -42,7 +43,7 @@ export default function TermsPage() {
               <section>
                 <h2 className="text-xl font-bold text-navy mb-2">4. Contact Information</h2>
                 <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
-                  For terms or project agreement questions, contact us at <strong className="text-blue-600 dark:text-cyan-400">syntraloop.contact@gmail.com</strong>.
+                  For terms or project agreement questions, contact us at <strong className="text-blue-600 dark:text-cyan-400"><ObfuscatedEmail /></strong>.
                 </p>
               </section>
             </div>

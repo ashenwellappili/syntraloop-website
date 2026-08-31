@@ -17,10 +17,9 @@ const XIcon = ({ size = 16, className = "" }) => (
   </svg>
 );
 
-export default function Footer() {
-  const contactEmail = "syntraloop.contact@gmail.com";
-  const whatsappNumber = "+94 74 226 6041";
+import { ObfuscatedEmail, ObfuscatedPhone } from '@/components/ObfuscatedContact';
 
+export default function Footer() {
   const socialLinks = {
     linkedin: "https://www.linkedin.com/company/syntraloop",
     facebook: "https://facebook.com/syntraloop",
@@ -49,13 +48,13 @@ export default function Footer() {
             <div className="footer-placeholders-box">
               <div className="placeholder-item">
                 <Mail size={14} className="placeholder-icon" />
-                <a href={`mailto:${contactEmail}`} className="email-link">{contactEmail}</a>
+                <ObfuscatedEmail className="email-link" />
               </div>
               <div className="placeholder-item">
                 <MessageSquare size={14} className="placeholder-icon" />
-                <a href="https://wa.me/94742266041" target="_blank" rel="noopener noreferrer" className="email-link">
-                  WhatsApp: {whatsappNumber}
-                </a>
+                <span className="email-link flex items-center gap-1">
+                  WhatsApp: <ObfuscatedPhone className="text-current hover:underline" />
+                </span>
               </div>
             </div>
           </div>

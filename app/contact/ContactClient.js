@@ -25,10 +25,12 @@ import {
   X,
   Paperclip
 } from 'lucide-react';
+import { getContactEmail, getWhatsAppNumber, getWhatsAppUrl, getMailtoUrl } from '@/utils/contactInfo';
+import { trackEvent } from '@/utils/analytics';
 
 export default function ContactClient() {
-  const contactEmail = "syntraloop.contact@gmail.com";
-  const whatsappNumber = "+94 74 226 6041";
+  const contactEmail = getContactEmail();
+  const whatsappNumber = getWhatsAppNumber();
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -64,7 +66,7 @@ export default function ContactClient() {
       value: whatsappNumber,
       meta: "Instant Response",
       icon: MessageSquare,
-      link: `https://wa.me/94742266041`,
+      link: getWhatsAppUrl(),
       actionText: "Chat on WhatsApp"
     },
     {
@@ -124,33 +126,61 @@ export default function ContactClient() {
     return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
   };
 
+  const ALLOWED_EXTENSIONS = ['.pdf', '.doc', '.docx', '.png', '.jpg', '.jpeg', '.zip', '.txt'];
+  const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10MB limit
+
+  const processSelectedFile = (file) => {
+    if (!file) return;
+
+    // 1. File Size Validation (Max 10MB)
+    if (file.size > MAX_FILE_SIZE_BYTES) {
+      setFormErrors((prev) => ({
+        ...prev,
+        file: "Attachment exceeds the 10 MB limit. Please select a smaller file."
+      }));
+      setAttachedFile(null);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      return;
+    }
+
+    // 2. File Type / Extension Validation
+    const fileNameLower = file.name.toLowerCase();
+    const hasValidExtension = ALLOWED_EXTENSIONS.some(ext => fileNameLower.endsWith(ext));
+    if (!hasValidExtension) {
+      setFormErrors((prev) => ({
+        ...prev,
+        file: "Unsupported file type. Please attach a PDF, DOCX, PNG, JPG, or ZIP archive."
+      }));
+      setAttachedFile(null);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      return;
+    }
+
+    // Valid file
+    setFormErrors((prev) => ({ ...prev, file: null }));
+    setAttachedFile({
+      name: file.name,
+      size: formatFileSize(file.size),
+      raw: file
+    });
+  };
+
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
-    if (file) {
-      setAttachedFile({
-        name: file.name,
-        size: formatFileSize(file.size),
-        raw: file
-      });
-    }
+    processSelectedFile(file);
   };
 
   const handleDrop = (e) => {
     e.preventDefault();
     setIsDragOver(false);
     const file = e.dataTransfer.files?.[0];
-    if (file) {
-      setAttachedFile({
-        name: file.name,
-        size: formatFileSize(file.size),
-        raw: file
-      });
-    }
+    processSelectedFile(file);
   };
 
   const handleRemoveFile = (e) => {
     e.stopPropagation();
     setAttachedFile(null);
+    setFormErrors((prev) => ({ ...prev, file: null }));
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -191,7 +221,7 @@ export default function ContactClient() {
     setIsSubmitting(true);
     setSubmitStatus(null);
 
-    // Format assessment inquiry to syntraloop.contact@gmail.com
+    // Format assessment inquiry to engineering team
     const clientName = `${formData.firstName.trim()} ${formData.lastName.trim()}`.trim();
     const clientEmail = formData.email.trim();
     const company = formData.businessName.trim() || 'Individual / Startup';
@@ -200,8 +230,8 @@ export default function ContactClient() {
     const projectDetails = formData.message.trim();
     const fileAttachmentInfo = attachedFile ? `${attachedFile.name} (${attachedFile.size})` : 'None attached';
 
-    const subject = encodeURIComponent(`[Project Assessment] ${selectedService} - ${clientName} (${company})`);
-    const body = encodeURIComponent(
+    const subject = `[Project Assessment] ${selectedService} - ${clientName} (${company})`;
+    const body = 
       `Hello SyntraLoop Engineering Team,\n\n` +
       `I am requesting a project assessment with the following details:\n\n` +
       `=======================================\n` +
@@ -218,10 +248,14 @@ export default function ContactClient() {
       `Attached Specification: ${fileAttachmentInfo}\n\n` +
       `Project Scope & Goals:\n${projectDetails}\n\n` +
       `---------------------------------------\n` +
-      `Sent via SyntraLoop Assessment Request Form`
-    );
+      `Sent via SyntraLoop Assessment Request Form`;
 
-    const mailtoUrl = `mailto:${contactEmail}?subject=${subject}&body=${body}`;
+    const mailtoUrl = getMailtoUrl(subject, body);
+    trackEvent('submit_assessment_form', {
+      service: selectedService,
+      timeline: requestedTimeline,
+      has_attachment: !!attachedFile,
+    });
     window.location.href = mailtoUrl;
 
     setTimeout(() => {
@@ -475,8 +509,15 @@ export default function ContactClient() {
                   >
                     <UploadCloud size={28} className="text-blue-600 mx-auto mb-1.5" />
                     <p className="text-sm font-semibold text-navy">Attach Project Brief or Specs (Optional)</p>
-                    <p className="text-xs text-slate-500 mt-0.5">Click or drag & drop PDF, DOCX, PNG, JPG, or ZIP (Max 15MB)</p>
+                    <p className="text-xs text-slate-500 mt-0.5">Click or drag & drop PDF, DOCX, PNG, JPG, or ZIP (Max 10MB)</p>
                   </div>
+                )}
+
+                {formErrors.file && (
+                  <p className="text-xs text-red-600 mt-2 font-medium flex items-center gap-1">
+                    <AlertCircle size={13} />
+                    <span>{formErrors.file}</span>
+                  </p>
                 )}
 
                 <button 

@@ -21,6 +21,7 @@ import {
   ListFilter,
   PhoneCall
 } from 'lucide-react';
+import { getContactEmail, getWhatsAppNumber, getWhatsAppUrl } from '@/utils/contactInfo';
 
 const KNOWLEDGE_BASE = [
   {
@@ -275,7 +276,7 @@ const KNOWLEDGE_BASE = [
   },
   {
     keywords: ["contact", "email", "phone", "whatsapp", "call", "reach", "number", "talk", "support"],
-    answer: "You can reach the SyntraLoop engineering team directly through:\n\n• **Email:** syntraloop.contact@gmail.com\n• **WhatsApp:** +94 74 226 6041\n• **Assessment Form:** Submit directly on our contact page\n\nWe respond to all inquiries within 24–48 hours!",
+    answer: `You can reach the SyntraLoop engineering team directly through:\n\n• **Email:** ${getContactEmail()}\n• **WhatsApp:** ${getWhatsAppNumber()}\n• **Assessment Form:** Submit directly on our contact page\n\nWe respond to all inquiries within 24–48 hours!`,
     action: { text: "Open Contact Page", href: "/contact" }
   },
   {
@@ -470,7 +471,7 @@ export default function Chatbot() {
             id: Date.now() + 1,
             sender: 'bot',
             text: `✅ **Callback Request Confirmed!**\n\n• **Phone:** ${updatedData.phone}\n• **Preferred Window:** ${updatedData.time}\n• **Requirement:** ${userInput}\n\nOur engineering lead will call you within your requested window. You can also message us directly on WhatsApp right away:`,
-            action: { text: "Connect on WhatsApp (+94 74 226 6041)", href: `https://wa.me/94742266041?text=${waText}` },
+            action: { text: `Connect on WhatsApp (${getWhatsAppNumber()})`, href: getWhatsAppUrl(`Hi SyntraLoop! I requested an immediate callback:\n• Phone: ${updatedData.phone || 'Not specified'}\n• Preferred Time: ${updatedData.time || 'Not specified'}\n• Requirement: ${userInput}`) },
             options: [
               "⚡ Scope My Project (Instant Estimator)",
               "Submit Full Assessment Form",
@@ -635,7 +636,7 @@ export default function Chatbot() {
               id: Date.now() + 1,
               sender: 'bot',
               text: `📋 **E-Commerce Scope Intake Complete!**\n\n• **Project Type:** E-Commerce Online Store\n• **Product Volume:** ${updatedData.products}\n• **Payments:** ${updatedData.payments}\n• **Delivery:** ${updatedData.delivery}\n• **Target Timeline:** ${selectedOption}\n\nOur engineering lead can review your scope immediately. Send this brief via WhatsApp or submit our formal assessment:`,
-              action: { text: "Send Scope on WhatsApp (+94 74 226 6041)", href: `https://wa.me/94742266041?text=${waSummary}` },
+              action: { text: `Send Scope on WhatsApp (${getWhatsAppNumber()})`, href: getWhatsAppUrl(`Hi SyntraLoop! I'd like a project assessment for an E-Commerce Website:\n• Products: ${updatedData.products || 'Not specified'}\n• Payments: ${updatedData.payments || 'Not specified'}\n• Delivery: ${updatedData.delivery || 'Not specified'}\n• Timeline: ${selectedOption}`) },
               options: ["Submit Full Assessment Form", "What is your revision policy?", "Ask Another Question"],
               timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
             }
@@ -716,7 +717,7 @@ export default function Chatbot() {
               id: Date.now() + 1,
               sender: 'bot',
               text: `📋 **Website Scope Intake Complete!**\n\n• **Project Type:** Business Website\n• **Hosting/Domain:** ${updatedData.hosting}\n• **Design/Content:** ${updatedData.design}\n• **Target Timeline:** ${selectedOption}\n\nOur engineering lead will review this scope and send milestone pricing. Send via WhatsApp or submit our assessment form:`,
-              action: { text: "Send Scope on WhatsApp (+94 74 226 6041)", href: `https://wa.me/94742266041?text=${waSummary}` },
+              action: { text: `Send Scope on WhatsApp (${getWhatsAppNumber()})`, href: getWhatsAppUrl(`Hi SyntraLoop! I'd like a project assessment for a Business Website:\n• Hosting/Domain: ${updatedData.hosting}\n• Design/Content: ${updatedData.design}\n• Target Timeline: ${selectedOption}`) },
               options: ["Submit Full Assessment Form", "What is your revision policy?", "Ask Another Question"],
               timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
             }
@@ -738,7 +739,7 @@ export default function Chatbot() {
             id: Date.now() + 1,
             sender: 'bot',
             text: `📋 **System Requirement Logged: ${selectedOption}**\n\nWe build tailored cloud portals with 100% code ownership, role access, and payment integrations. Connect directly with our lead architect:`,
-            action: { text: "Connect on WhatsApp (+94 74 226 6041)", href: `https://wa.me/94742266041?text=${waSummary}` },
+            action: { text: `Connect on WhatsApp (${getWhatsAppNumber()})`, href: getWhatsAppUrl(`Hi SyntraLoop! I'd like a project assessment for a Custom Solution:\n• System: ${selectedOption}`) },
             options: ["Submit Full Assessment Form", "What is your revision policy?", "Ask Another Question"],
             timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
           }
@@ -842,13 +843,13 @@ export default function Chatbot() {
     // 4. WhatsApp Direct Chat
     if (/(talk on whatsapp|chat on whatsapp|open whatsapp)/i.test(stripped)) {
       return {
-        text: "💬 **Talk Directly with Our Engineering Lead on WhatsApp:**\n\nSkip the email back-and-forth! Connect directly with our technical lead at **+94 74 226 6041** for instant project consultations, feasibility reviews, and technical scoping.",
+        text: `💬 **Talk Directly with Our Engineering Lead on WhatsApp:**\n\nSkip the email back-and-forth! Connect directly with our technical lead at **${getWhatsAppNumber()}** for instant project consultations, feasibility reviews, and technical scoping.`,
         options: [
           "💰 Estimate My Project Cost",
           "📞 Request an Immediate Callback",
           "🛠️ View Live Repair Shop Demo"
         ],
-        action: { text: "Open WhatsApp (+94 74 226 6041)", href: "https://wa.me/94742266041?text=Hi%20SyntraLoop%2C%20I%20would%20like%20to%20discuss%20a%20project!" }
+        action: { text: `Open WhatsApp (${getWhatsAppNumber()})`, href: getWhatsAppUrl("Hi SyntraLoop, I would like to discuss a project!") }
       };
     }
 
@@ -889,7 +890,7 @@ export default function Chatbot() {
           "I want an E-Commerce website",
           "I want a Business Website"
         ],
-        action: { text: "Chat on WhatsApp (+94 74 226 6041)", href: "https://wa.me/94742266041" }
+        action: { text: `Chat on WhatsApp (${getWhatsAppNumber()})`, href: getWhatsAppUrl() }
       };
     }
 
@@ -982,7 +983,7 @@ export default function Chatbot() {
           "PayHere & Local Payment Gateways?",
           "Koombiyo & Domex Courier Tracking?"
         ],
-        action: { text: "Contact on WhatsApp", href: "https://wa.me/94742266041" }
+        action: { text: "Contact on WhatsApp", href: getWhatsAppUrl() }
       };
     }
 
@@ -1112,13 +1113,13 @@ export default function Chatbot() {
     // 9. Direct Human / Live Contact intent
     if (/(talk to human|speak to human|real person|call me|zoom|meeting|schedule call|consultation|talk to team)/i.test(stripped)) {
       return {
-        text: "You can talk directly with our engineering leadership! Connect via WhatsApp at **+94 74 226 6041**, email **syntraloop.contact@gmail.com**, or request an immediate phone callback right here:",
+        text: `You can talk directly with our engineering leadership! Connect via WhatsApp at **${getWhatsAppNumber()}**, email **${getContactEmail()}**, or request an immediate phone callback right here:`,
         options: [
           "📞 Request an Immediate Callback",
-          "Chat on WhatsApp (+94 74 226 6041)",
+          `Chat on WhatsApp (${getWhatsAppNumber()})`,
           "Submit Assessment Form"
         ],
-        action: { text: "Chat on WhatsApp (+94 74 226 6041)", href: "https://wa.me/94742266041" }
+        action: { text: `Chat on WhatsApp (${getWhatsAppNumber()})`, href: getWhatsAppUrl() }
       };
     }
 
@@ -1160,12 +1161,12 @@ export default function Chatbot() {
         "What services do you offer?",
         "Request Assessment"
       ],
-      action: { text: "Connect on WhatsApp (+94 74 226 6041)", href: "https://wa.me/94742266041" }
+      action: { text: `Connect on WhatsApp (${getWhatsAppNumber()})`, href: getWhatsAppUrl() }
     };
   };
 
   const handleSendMessage = (textToSend) => {
-    const query = (textToSend || inputValue).trim();
+    const query = (textToSend || inputValue).trim().slice(0, 500);
     if (!query) return;
 
     // Check if in Callback Flow
@@ -1404,6 +1405,7 @@ export default function Chatbot() {
               <input
                 ref={inputRef}
                 type="text"
+                maxLength={500}
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyDown={handleKeyDown}
