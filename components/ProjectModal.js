@@ -2,13 +2,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import Link from 'next/link';
 import { 
   X, 
   CheckCircle2, 
   Sparkles, 
   Layers, 
-  ArrowRight, 
   Code,
   Building2,
   MonitorPlay,
@@ -266,15 +264,6 @@ export default function ProjectModal({ project, isOpen, onClose }) {
           </div>
 
           <div className="flex items-center gap-2.5 flex-wrap">
-            <Link 
-              href="/contact" 
-              onClick={onClose}
-              className="btn btn-primary project-modal-primary-btn"
-            >
-              <span>Request Similar Architecture</span>
-              <ArrowRight size={15} />
-            </Link>
-
             <button 
               type="button" 
               onClick={onClose} 
