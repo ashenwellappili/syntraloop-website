@@ -1,0 +1,976 @@
+/* ==========================================================================
+   LUXURY VILLA WEBSITE DEMO STYLING
+   Pixel-perfect luxury dark theme with gold accents, serif typography,
+   glassmorphic booking bar, and rich visual cards.
+   ========================================================================== */
+
+.villa-demo-wrapper {
+  width: 100%;
+  background-color: #0c0c0e;
+  color: #f3f4f6;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(212, 163, 89, 0.2);
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7);
+  position: relative;
+}
+
+/* Non-Clickable Demo Banner */
+.villa-demo-banner {
+  background: linear-gradient(90deg, #18140c, #261f12, #18140c);
+  border-bottom: 1px solid rgba(212, 163, 89, 0.25);
+  color: #e5a93c;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  z-index: 50;
+  position: sticky;
+  top: 0;
+}
+
+.villa-demo-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #e5a93c;
+  box-shadow: 0 0 10px #e5a93c;
+  animation: villaPulse 1.8s infinite ease-in-out;
+}
+
+@keyframes villaPulse {
+  0%, 100% { transform: scale(0.9); opacity: 0.6; }
+  50% { transform: scale(1.3); opacity: 1; }
+}
+
+.villa-demo-container {
+  position: relative;
+  background-color: #0c0c0e;
+}
+
+/* ================= TOPBAR ================= */
+.villa-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: rgba(12, 12, 14, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  position: sticky;
+  top: 33px;
+  z-index: 40;
+}
+
+.villa-brand {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+}
+
+.villa-nav {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.villa-nav-link {
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: #a1a1aa;
+  transition: color 0.2s;
+  cursor: default;
+}
+
+.villa-nav-link.active {
+  color: #ffffff;
+}
+
+.villa-weather-pill {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 6px 12px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.villa-temp {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #ffffff;
+  display: block;
+  line-height: 1.1;
+}
+
+.villa-weather-desc {
+  font-size: 0.68rem;
+  color: #a1a1aa;
+  display: block;
+  line-height: 1;
+}
+
+.villa-book-btn {
+  background: #e5a93c;
+  color: #0c0c0e;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 8px 18px;
+  border-radius: 9999px;
+  border: none;
+  cursor: default;
+}
+
+/* ================= HERO SECTION ================= */
+.villa-hero {
+  position: relative;
+  min-height: 520px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 20px 90px;
+  background: radial-gradient(circle at center, rgba(12, 12, 14, 0.2) 0%, rgba(12, 12, 14, 0.75) 100%),
+              url('/villa-showcase.jpg') center/cover no-repeat;
+}
+
+.villa-hero-backdrop {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(12, 12, 14, 0.35) 0%, rgba(12, 12, 14, 0.6) 60%, #0c0c0e 100%);
+}
+
+.villa-hero-content {
+  position: relative;
+  z-index: 10;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.villa-badge-gold {
+  color: #e5a93c;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.villa-hero-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.18;
+  margin-bottom: 28px;
+}
+
+.villa-hero-italic {
+  font-style: italic;
+  font-weight: 400;
+  color: #fef08a;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* Glass Booking Bar */
+.villa-glass-booking-bar {
+  background: rgba(22, 22, 26, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 680px;
+  margin: 0 auto;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  flex-wrap: wrap;
+}
+
+.villa-booking-item {
+  flex: 1;
+  min-width: 110px;
+  text-align: left;
+  padding: 4px 8px;
+}
+
+.villa-booking-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #a1a1aa;
+  letter-spacing: 0.08em;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.villa-booking-val {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #f4f4f5;
+}
+
+.villa-booking-divider {
+  width: 1px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.villa-cta-gold-btn {
+  background: #e5a93c;
+  color: #0c0c0e;
+  font-weight: 700;
+  font-size: 0.82rem;
+  padding: 10px 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  cursor: default;
+}
+
+/* ================= SECTION COMMONS ================= */
+.villa-section {
+  padding: 60px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.villa-section-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.25;
+}
+
+.villa-serif-italic {
+  font-style: italic;
+  font-weight: 400;
+  color: #e5a93c;
+}
+
+.villa-section-sub {
+  font-size: 0.9rem;
+  color: #a1a1aa;
+  line-height: 1.6;
+  margin-top: 8px;
+}
+
+/* ================= DISCOVER THE VILLA ================= */
+.villa-discover-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .villa-discover-grid {
+    grid-template-columns: 1.1fr 0.9fr;
+  }
+}
+
+.villa-discover-desc {
+  font-size: 0.88rem;
+  color: #d4d4d8;
+  line-height: 1.7;
+}
+
+.villa-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.villa-metric-card {
+  background: #141417;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 14px 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.villa-metric-num {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.1;
+}
+
+.villa-metric-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #a1a1aa;
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+
+.villa-photo-collage {
+  position: relative;
+  min-height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.villa-collage-card {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+.villa-collage-card.main {
+  width: 78%;
+  height: 260px;
+  position: absolute;
+  top: 10px;
+  left: 0;
+  z-index: 10;
+}
+
+.villa-collage-card.sub {
+  width: 78%;
+  height: 260px;
+  position: absolute;
+  bottom: 10px;
+  right: 0;
+  z-index: 20;
+}
+
+.villa-collage-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ================= THE GALLERY ================= */
+.villa-filter-pills {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.filter-pill {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background: #18181c;
+  color: #a1a1aa;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  cursor: default;
+}
+
+.filter-pill.active {
+  background: #e5a93c;
+  color: #0c0c0e;
+  border-color: #e5a93c;
+}
+
+.villa-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.villa-gallery-item {
+  position: relative;
+  height: 200px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #141417;
+}
+
+.villa-gallery-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.villa-gallery-caption {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 12px;
+  background: linear-gradient(180deg, transparent 0%, rgba(12, 12, 14, 0.95) 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+.villa-gallery-tag {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #e5a93c;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.villa-gallery-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* ================= AMENITIES ================= */
+.villa-amenities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.villa-amenity-card {
+  background: #141417;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.villa-amenity-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: rgba(229, 169, 60, 0.12);
+  color: #e5a93c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.villa-amenity-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.villa-amenity-desc {
+  font-size: 0.78rem;
+  color: #a1a1aa;
+  line-height: 1.5;
+}
+
+/* ================= SELECT YOUR STAY (CALENDAR) ================= */
+.villa-booking-engine-card {
+  background: #141417;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 28px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+@media (min-width: 800px) {
+  .villa-booking-engine-card {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.villa-booking-pane-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.villa-booking-pane-sub {
+  font-size: 0.82rem;
+  color: #a1a1aa;
+  margin-bottom: 20px;
+}
+
+.villa-mock-calendar {
+  background: #1a1a1f;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.villa-calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding: 0 4px;
+}
+
+.villa-cal-month {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.villa-cal-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #71717a;
+  margin-bottom: 8px;
+}
+
+.villa-cal-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+  font-size: 0.78rem;
+  color: #d4d4d8;
+}
+
+.villa-cal-days span {
+  padding: 7px 0;
+  border-radius: 6px;
+}
+
+.villa-cal-days span.selected {
+  background: #3b82f6;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.villa-summary-pane {
+  background: #18181d;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.villa-summary-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 16px;
+}
+
+.villa-field-group {
+  margin-bottom: 12px;
+}
+
+.villa-field-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #a1a1aa;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.villa-field-input {
+  background: #131316;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.82rem;
+  color: #d4d4d8;
+}
+
+.villa-price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 14px;
+}
+
+.villa-price-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #a1a1aa;
+}
+
+.villa-price-value {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #e5a93c;
+}
+
+.villa-confirm-btn {
+  width: 100%;
+  background: #e5a93c;
+  color: #0c0c0e;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 8px;
+  border: none;
+  cursor: default;
+}
+
+/* ================= REVIEWS / GUEST BOOK ================= */
+.villa-reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.villa-review-card {
+  background: #141417;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.villa-review-text {
+  font-size: 0.85rem;
+  color: #d4d4d8;
+  line-height: 1.65;
+  font-style: italic;
+  margin-bottom: 18px;
+}
+
+.villa-reviewer-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.villa-reviewer-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #e5a93c, #b45309);
+  color: #0c0c0e;
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.villa-reviewer-name {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.villa-reviewer-meta {
+  font-size: 0.72rem;
+  color: #a1a1aa;
+}
+
+/* ================= ATTRACTIONS ================= */
+.villa-attractions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.villa-attraction-card {
+  background: #141417;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.villa-attraction-dist {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #e5a93c;
+}
+
+.villa-attraction-time {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  color: #a1a1aa;
+}
+
+.villa-attraction-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.villa-attraction-desc {
+  font-size: 0.78rem;
+  color: #a1a1aa;
+  line-height: 1.5;
+}
+
+/* ================= CONTACT / INQUIRY ================= */
+.villa-contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+@media (min-width: 860px) {
+  .villa-contact-grid {
+    grid-template-columns: 0.9fr 1.1fr;
+  }
+}
+
+.villa-contact-desc {
+  font-size: 0.86rem;
+  color: #a1a1aa;
+  line-height: 1.6;
+  margin-top: 10px;
+  margin-bottom: 24px;
+}
+
+.villa-contact-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.villa-contact-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #141417;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.villa-contact-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #e5a93c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.villa-contact-label {
+  font-size: 0.68rem;
+  color: #a1a1aa;
+  display: block;
+}
+
+.villa-contact-val {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.villa-inquiry-pane {
+  background: #141417;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 24px;
+}
+
+.villa-inquiry-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 18px;
+}
+
+.villa-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.villa-form-field {
+  margin-bottom: 12px;
+}
+
+.villa-input,
+.villa-textarea {
+  width: 100%;
+  background: #18181d;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 0.82rem;
+  color: #ffffff;
+  outline: none;
+}
+
+.villa-textarea {
+  resize: none;
+}
+
+.villa-submit-btn {
+  background: #e5a93c;
+  color: #0c0c0e;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 10px 20px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  cursor: default;
+}
+
+/* ================= FOOTER ================= */
+.villa-footer {
+  background: #09090b;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 40px 24px 24px;
+}
+
+.villa-footer-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  max-width: 1120px;
+  margin: 0 auto 36px;
+}
+
+@media (min-width: 768px) {
+  .villa-footer-grid {
+    grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
+  }
+}
+
+.villa-footer-tagline {
+  font-size: 0.82rem;
+  color: #a1a1aa;
+  line-height: 1.6;
+  margin-top: 10px;
+  max-width: 280px;
+}
+
+.villa-footer-heading {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 12px;
+}
+
+.villa-footer-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: #a1a1aa;
+}
+
+.villa-footer-news-desc {
+  font-size: 0.78rem;
+  color: #a1a1aa;
+  margin-bottom: 10px;
+}
+
+.villa-news-input-wrap {
+  display: flex;
+  gap: 6px;
+}
+
+.villa-news-input {
+  flex: 1;
+  background: #141417;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 7px 10px;
+  font-size: 0.78rem;
+  color: #ffffff;
+  outline: none;
+}
+
+.villa-news-btn {
+  background: #e5a93c;
+  color: #0c0c0e;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 7px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: default;
+}
+
+.villa-footer-bottom {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 0.72rem;
+  color: #71717a;
+}
+
+/* ================= FLOATING ACTION WIDGETS ================= */
+.villa-floating-widgets {
+  position: absolute;
+  right: 18px;
+  bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 50;
+}
+
+.villa-float-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.villa-float-btn.grid-icon {
+  background: #18181c;
+}
+
+.villa-float-btn.ai-icon {
+  background: #1e1b4b;
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+.villa-float-btn.chat-icon {
+  background: #18181c;
+  border-color: rgba(229, 169, 60, 0.3);
+}
+
+.villa-float-btn.whatsapp-icon {
+  background: #10b981;
+  border-color: #10b981;
+}

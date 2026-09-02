@@ -1,5 +1,3 @@
-"use client";
-
 import React from 'react';
 import Link from 'next/link';
 import { Home, Compass, MessageSquare, ArrowRight, ArrowLeft, Search } from 'lucide-react';
