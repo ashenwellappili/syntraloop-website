@@ -5,6 +5,7 @@ import PageHero from '@/components/PageHero';
 import SectionHeader from '@/components/SectionHeader';
 import ScrollReveal from '@/components/ScrollReveal';
 import FAQAccordion from '@/components/FAQAccordion';
+import StillHaveQuestions from '@/components/StillHaveQuestions';
 import { 
   Mail, 
   MessageSquare, 
@@ -187,6 +188,8 @@ export default function ContactClient() {
     }
   };
 
+  const [serverError, setServerError] = useState('');
+
   const validateForm = () => {
     const errors = {};
     if (!formData.firstName.trim()) {
@@ -206,7 +209,7 @@ export default function ContactClient() {
     return errors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const errors = validateForm();
 
@@ -221,64 +224,71 @@ export default function ContactClient() {
 
     setIsSubmitting(true);
     setSubmitStatus(null);
+    setServerError('');
 
-    // Format assessment inquiry to engineering team
-    const clientName = `${formData.firstName.trim()} ${formData.lastName.trim()}`.trim();
-    const clientEmail = formData.email.trim();
-    const company = formData.businessName.trim() || 'Individual / Startup';
-    const selectedService = formData.service;
-    const requestedTimeline = formData.timeline || 'Flexible';
-    const projectDetails = formData.message.trim();
-    const fileAttachmentInfo = attachedFile ? `${attachedFile.name} (${attachedFile.size})` : 'None attached';
+    try {
+      const payload = new FormData();
+      payload.append('formType', 'assessment');
+      payload.append('firstName', formData.firstName.trim());
+      payload.append('lastName', formData.lastName.trim());
+      payload.append('email', formData.email.trim());
+      payload.append('businessName', formData.businessName.trim());
+      payload.append('service', formData.service);
+      payload.append('timeline', formData.timeline);
+      payload.append('message', formData.message.trim());
 
-    const subject = `[Project Assessment] ${selectedService} - ${clientName} (${company})`;
-    const body = 
-      `Hello SyntraLoop Engineering Team,\n\n` +
-      `I am requesting a project assessment with the following details:\n\n` +
-      `=======================================\n` +
-      `CLIENT DETAILS\n` +
-      `=======================================\n` +
-      `Name: ${clientName}\n` +
-      `Email: ${clientEmail}\n` +
-      `Business / Organization: ${company}\n\n` +
-      `=======================================\n` +
-      `PROJECT REQUIREMENTS\n` +
-      `=======================================\n` +
-      `Requested Track: ${selectedService}\n` +
-      `Target Timeline: ${requestedTimeline}\n` +
-      `Attached Specification: ${fileAttachmentInfo}\n\n` +
-      `Project Scope & Goals:\n${projectDetails}\n\n` +
-      `---------------------------------------\n` +
-      `Sent via SyntraLoop Assessment Request Form`;
-
-    const mailtoUrl = getMailtoUrl(subject, body);
-    trackEvent('submit_assessment_form', {
-      service: selectedService,
-      timeline: requestedTimeline,
-      has_attachment: !!attachedFile,
-    });
-    window.location.href = mailtoUrl;
-
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitStatus('success');
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        businessName: '',
-        service: '',
-        timeline: '',
-        message: ''
-      });
-      setAttachedFile(null);
-      if (fileInputRef.current) fileInputRef.current.value = '';
-      setFormErrors({});
-
-      if (formCardRef.current) {
-        formCardRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (attachedFile?.raw) {
+        payload.append('file', attachedFile.raw);
       }
-    }, 800);
+
+      trackEvent('submit_assessment_form', {
+        service: formData.service,
+        timeline: formData.timeline || 'Flexible',
+        has_attachment: !!attachedFile,
+      });
+
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        body: payload
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        setSubmitStatus('success');
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          businessName: '',
+          service: '',
+          timeline: '',
+          message: ''
+        });
+        setAttachedFile(null);
+        if (fileInputRef.current) fileInputRef.current.value = '';
+        setFormErrors({});
+
+        if (formCardRef.current) {
+          formCardRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      } else {
+        setSubmitStatus('server_error');
+        setServerError(result.error || 'Failed to submit inquiry. Please try again.');
+        if (errorSummaryRef.current) {
+          errorSummaryRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+    } catch (err) {
+      console.error('Submission error:', err);
+      setSubmitStatus('server_error');
+      setServerError('An unexpected network error occurred. Please check your connection or contact us directly.');
+      if (errorSummaryRef.current) {
+        errorSummaryRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -311,7 +321,19 @@ export default function ContactClient() {
                   <div>
                     <h3 className="font-bold text-emerald-900 text-lg">Project Assessment Request Sent!</h3>
                     <p className="text-sm text-emerald-700 mt-1 leading-relaxed">
-                      Thank you for submitting your project requirements. Your assessment inquiry has been routed to <span className="font-bold text-blue-700">{contactEmail}</span>. Our engineering team will review your specifications and respond to your email within 24–48 business hours.
+                      Thank you for submitting your project requirements. Your assessment inquiry has been delivered directly to our team at <span className="font-bold text-blue-700">{contactEmail}</span>. Our engineering team will review your specifications and respond to your email within 24–48 business hours.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {submitStatus === 'server_error' && (
+                <div ref={errorSummaryRef} className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3 animate-fade-in-up">
+                  <AlertCircle size={22} className="text-red-600 shrink-0 mt-0.5" />
+                  <div>
+                    <h3 className="font-bold text-red-900">Submission Could Not Be Completed</h3>
+                    <p className="text-sm text-red-700 mt-1">
+                      {serverError || 'An error occurred while sending your request. Please try again or reach out to us directly.'}
                     </p>
                   </div>
                 </div>
@@ -524,7 +546,7 @@ export default function ContactClient() {
                 <LoadingButton 
                   type="submit" 
                   isLoading={isSubmitting} 
-                  loadingText="Preparing Assessment..."
+                  loadingText="Submitting Assessment..."
                   className="assessment-submit-btn w-full"
                 >
                   <span>Submit Project Assessment</span>
@@ -606,6 +628,11 @@ export default function ContactClient() {
           <div className="max-w-3xl mx-auto mt-8">
             <FAQAccordion items={contactFaqs} />
           </div>
+
+          {/* Reference "Still Have Questions?" Box */}
+          <ScrollReveal delay={200}>
+            <StillHaveQuestions />
+          </ScrollReveal>
         </div>
       </section>
     </div>

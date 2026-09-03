@@ -6,6 +6,7 @@ import PageHero from '@/components/PageHero';
 import SectionHeader from '@/components/SectionHeader';
 import ProjectCard from '@/components/ProjectCard';
 import FAQAccordion from '@/components/FAQAccordion';
+import StillHaveQuestions from '@/components/StillHaveQuestions';
 import ScrollReveal from '@/components/ScrollReveal';
 import { projectsData } from '@/data/projectsData';
 import {
@@ -162,6 +163,11 @@ export default function WorkPage() {
           <div className="max-w-3xl mx-auto mt-8">
             <FAQAccordion items={workFaqItems} />
           </div>
+
+          {/* Reference "Still Have Questions?" Box */}
+          <ScrollReveal delay={200}>
+            <StillHaveQuestions />
+          </ScrollReveal>
         </div>
       </section>
     </div>

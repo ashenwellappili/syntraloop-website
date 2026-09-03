@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Send, CheckCircle2, MessageSquare, Mail, ArrowRight } from 'lucide-react';
-import { getContactEmail, getMailtoUrl } from '@/utils/contactInfo';
+import { Send, CheckCircle2, MessageSquare, Mail, ArrowRight, AlertCircle } from 'lucide-react';
+import { getContactEmail } from '@/utils/contactInfo';
 import { ObfuscatedEmail } from '@/components/ObfuscatedContact';
 import LoadingButton from '@/components/LoadingButton';
 
@@ -13,20 +13,42 @@ export default function StillHaveQuestions() {
   const [isSending, setIsSending] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (question.trim() && email.trim()) {
-      setIsSending(true);
-      const subject = `[SyntraLoop Inquiry] Question from ${email.trim()}`;
-      const body = `Hello SyntraLoop Team,\n\nI have a question:\n\n"${question.trim()}"\n\nPlease respond to me at: ${email.trim()}\n\nBest regards,\n${email.trim()}`;
-      
-      const mailtoUrl = getMailtoUrl(subject, body);
-      window.location.href = mailtoUrl;
+  const [errorMessage, setErrorMessage] = useState('');
 
-      setTimeout(() => {
-        setIsSending(false);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!question.trim() || !email.trim()) return;
+
+    setIsSending(true);
+    setErrorMessage('');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          formType: 'quick_inquiry',
+          email: email.trim(),
+          question: question.trim(),
+          message: question.trim()
+        })
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
         setSubmitted(true);
-      }, 300);
+        setQuestion('');
+      } else {
+        setErrorMessage(result.error || 'Unable to submit question. Please try again.');
+      }
+    } catch (err) {
+      console.error('Error submitting question:', err);
+      setErrorMessage('Network error. Please try again or reach out to us directly.');
+    } finally {
+      setIsSending(false);
     }
   };
 
@@ -39,6 +61,13 @@ export default function StillHaveQuestions() {
       <p className="still-questions-sub">
         Can’t find the answer you’re looking for? Send us a quick note and our team will get back to you.
       </p>
+
+      {errorMessage && (
+        <div className="mb-4 p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 rounded-xl flex items-center justify-center gap-2 text-xs text-red-600 dark:text-red-400">
+          <AlertCircle size={15} className="shrink-0" />
+          <span>{errorMessage}</span>
+        </div>
+      )}
 
       {submitted ? (
         <div className="still-questions-success">
