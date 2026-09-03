@@ -580,7 +580,6 @@ export default function ContactClient() {
                       <div className="path-icon-box">
                         <IconComp size={22} />
                       </div>
-                      <span className="path-card-kicker">Channel</span>
                       <h3 className="path-card-title">{item.title}</h3>
                       <span className="contact-val-text" title={item.value}>
                         {item.value}
