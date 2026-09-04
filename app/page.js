@@ -77,8 +77,7 @@ function NeuralNetworkCanvas() {
 
       // Seamless fluid drift without hard box boundaries
       if (!prefersReducedMotion) {
-        for (let i = 0; i < nodes.length; i++) {
-          const n = nodes[i];
+        for (const n of nodes) {
           n.x += n.vx;
           n.y += n.vy;
 
@@ -90,10 +89,8 @@ function NeuralNetworkCanvas() {
       }
 
       // Draw dynamic glowing cyan connecting lines
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-          const n1 = nodes[i];
-          const n2 = nodes[j];
+      nodes.forEach((n1, i) => {
+        nodes.slice(i + 1).forEach((n2) => {
           const dx = n1.x - n2.x;
           const dy = n1.y - n2.y;
           const dist = Math.hypot(dx, dy);
@@ -107,13 +104,11 @@ function NeuralNetworkCanvas() {
             ctx.lineWidth = 1.1;
             ctx.stroke();
           }
-        }
-      }
+        });
+      });
 
       // Draw glowing cyan particles
-      for (let i = 0; i < nodes.length; i++) {
-        const n = nodes[i];
-        
+      for (const n of nodes) {
         ctx.beginPath();
         ctx.arc(n.x, n.y, n.radius * 2.2, 0, Math.PI * 2);
         ctx.fillStyle = 'rgba(56, 189, 248, 0.22)';

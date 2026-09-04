@@ -112,12 +112,29 @@ export default function ContactClient() {
     }
   ];
 
+  const ALLOWED_FORM_FIELDS = new Set([
+    'firstName', 'lastName', 'email', 'businessName', 'service', 'timeline', 'message'
+  ]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (!ALLOWED_FORM_FIELDS.has(name)) return;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    if (formErrors[name]) {
-      setFormErrors((prev) => ({ ...prev, [name]: null }));
-    }
+    setFormErrors((prev) => {
+      if (!prev) return prev;
+      const next = { ...prev };
+      switch (name) {
+        case 'firstName': delete next.firstName; break;
+        case 'lastName': delete next.lastName; break;
+        case 'email': delete next.email; break;
+        case 'businessName': delete next.businessName; break;
+        case 'service': delete next.service; break;
+        case 'timeline': delete next.timeline; break;
+        case 'message': delete next.message; break;
+        default: break;
+      }
+      return next;
+    });
   };
 
   const formatFileSize = (bytes) => {
@@ -433,11 +450,11 @@ export default function ContactClient() {
                       required
                     >
                       <option value="">Select a service category</option>
-                      <option value="Web Development (Website / Web App)">Web Development (Website / Web App)</option>
-                      <option value="Business Management System">Business Management System</option>
-                      <option value="AI Integration & Automation">AI Integration & Automation</option>
-                      <option value="Website Maintenance & Support">Website Maintenance & Support</option>
-                      <option value="Architecture Consulting & Other">Architecture Consulting & Other</option>
+                      <option value="web">Web Development (Website / Web App)</option>
+                      <option value="dashboard">Business Management System</option>
+                      <option value="ai-bot">AI Integration & Automation</option>
+                      <option value="maintenance">Website Maintenance & Support</option>
+                      <option value="other">Architecture Consulting & Other</option>
                     </select>
                     {formErrors.service && (
                       <p className="text-xs text-red-600 mt-1">{formErrors.service}</p>

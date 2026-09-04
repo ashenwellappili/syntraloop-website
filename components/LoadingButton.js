@@ -24,12 +24,13 @@ export default function LoadingButton({
   children,
   ...props
 }) {
-  const variantClass = {
-    primary: 'btn-loading-primary',
-    cyan: 'btn-loading-cyan',
-    secondary: 'btn-loading-secondary',
-    dark: 'btn-loading-dark'
-  }[variant] || 'btn-loading-primary';
+  const variantMap = new Map([
+    ['primary', 'btn-loading-primary'],
+    ['cyan', 'btn-loading-cyan'],
+    ['secondary', 'btn-loading-secondary'],
+    ['dark', 'btn-loading-dark']
+  ]);
+  const variantClass = variantMap.get(variant) || 'btn-loading-primary';
 
   return (
     <button
