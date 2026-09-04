@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import { z } from 'zod';
 
 export const runtime = 'nodejs';
 
@@ -15,6 +16,81 @@ function escapeHtml(text) {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
 }
+
+/**
+ * Normalizes service titles or enum keys to the required enum values.
+ */
+const SERVICE_LOOKUP = new Map([
+  ['web development (website / web app)', 'web'],
+  ['web development', 'web'],
+  ['web', 'web'],
+  ['business management system', 'dashboard'],
+  ['dashboard', 'dashboard'],
+  ['ai integration & automation', 'ai-bot'],
+  ['ai-bot', 'ai-bot'],
+  ['ai', 'ai-bot'],
+  ['website maintenance & support', 'maintenance'],
+  ['maintenance', 'maintenance'],
+  ['architecture consulting & other', 'other'],
+  ['security audit', 'other'],
+  ['other', 'other']
+]);
+
+/**
+ * Strict Zod Validation Schema for /api/contact
+ */
+const contactSchema = z.object({
+  firstName: z
+    .string({ required_error: 'First name is required.' })
+    .trim()
+    .min(2, { message: 'First name must be at least 2 characters.' })
+    .max(50, { message: 'First name must not exceed 50 characters.' }),
+  lastName: z
+    .string()
+    .trim()
+    .max(50, { message: 'Last name must not exceed 50 characters.' })
+    .optional()
+    .default(''),
+  email: z
+    .string({ required_error: 'Email address is required.' })
+    .trim()
+    .max(100, { message: 'Email address must not exceed 100 characters.' })
+    .email({ message: 'Please provide a valid email address.' })
+    .toLowerCase(),
+  businessName: z
+    .string()
+    .trim()
+    .max(100, { message: 'Business name must not exceed 100 characters.' })
+    .optional()
+    .default(''),
+  service: z.preprocess(
+    (val) => {
+      if (typeof val === 'string') {
+        const key = val.trim().toLowerCase();
+        return SERVICE_LOOKUP.get(key) || key;
+      }
+      return val;
+    },
+    z.enum(['web', 'dashboard', 'ai-bot', 'maintenance', 'other'], {
+      errorMap: () => ({ message: "Service must be one of: 'web', 'dashboard', 'ai-bot', 'maintenance', 'other'." })
+    })
+  ),
+  timeline: z
+    .string()
+    .trim()
+    .max(50, { message: 'Timeline must not exceed 50 characters.' })
+    .optional()
+    .default(''),
+  message: z
+    .string({ required_error: 'Message content is required.' })
+    .trim()
+    .min(10, { message: 'Message content must be at least 10 characters.' })
+    .max(3000, { message: 'Message content must not exceed 3000 characters.' }),
+  formType: z
+    .string()
+    .optional()
+    .default('assessment')
+});
 
 /**
  * Generates an executive-styled HTML email for SyntraLoop inquiries & assessments.
@@ -39,7 +115,6 @@ function generateEmailHtml({
     : isQuickInquiry 
     ? 'New Question / FAQ Inquiry' 
     : 'New Direct Inquiry';
-  const badgeColor = isAssessment ? '#2563eb' : isQuickInquiry ? '#059669' : '#0284c7';
 
   return `
 <!DOCTYPE html>
@@ -211,10 +286,80 @@ const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
 const MAX_REQUESTS_PER_WINDOW = 8; // Max 8 requests per 15 min
 
 const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10MB limit
+
+const ALLOWED_MIME_TYPES = new Set([
+  'application/pdf',
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+  'text/plain'
+]);
+
 const BLOCKED_FILE_EXTENSIONS = [
   '.exe', '.bat', '.cmd', '.sh', '.php', '.phtml', '.js', '.vbs', 
-  '.msi', '.scr', '.pif', '.dll', '.com', '.jar', '.apk', '.bin', '.wsf'
+  '.py', '.jar', '.bin', '.msi', '.scr', '.pif', '.dll', '.com', '.wsf'
 ];
+
+/**
+ * Sanitizes a filename to prevent path traversal, hidden files, and command injection.
+ */
+function sanitizeFilename(originalName) {
+  if (!originalName || typeof originalName !== 'string') return 'attachment.bin';
+  // Strip directory paths (both POSIX and Windows)
+  let clean = originalName.replace(/^.*[\\\/]/, '');
+  // Remove control characters, quotes, and dangerous symbols
+  clean = clean.replace(/[\x00-\x1f\x7f<>:"/\\|?*]/g, '_');
+  // Strip leading dots to prevent directory traversal or hidden files
+  clean = clean.replace(/^\.+/, '');
+  return clean.slice(0, 100) || 'attachment.bin';
+}
+
+/**
+ * Validates uploaded file against size, extension blocklist, and MIME-type allowlist.
+ */
+function validateAttachment(fileField) {
+  if (!fileField || typeof fileField !== 'object' || fileField.size === 0) {
+    return { isValid: true, error: null };
+  }
+
+  // 1. Explicit Size Validation (<= 10MB)
+  if (fileField.size > MAX_FILE_SIZE_BYTES) {
+    return {
+      isValid: false,
+      error: {
+        field: 'file',
+        message: 'Attached file exceeds the maximum allowed limit of 10MB.'
+      }
+    };
+  }
+
+  // 2. Extension Blocklist
+  const fileNameLower = (fileField.name || '').toLowerCase();
+  const hasBlockedExt = BLOCKED_FILE_EXTENSIONS.some((ext) => fileNameLower.endsWith(ext));
+  if (hasBlockedExt) {
+    return {
+      isValid: false,
+      error: {
+        field: 'file',
+        message: 'Executable and script file attachments are blocked for security purposes. Please upload a PDF, document, or image.'
+      }
+    };
+  }
+
+  // 3. MIME-Type Allowlist
+  const mimeType = (fileField.type || '').toLowerCase();
+  if (mimeType && !ALLOWED_MIME_TYPES.has(mimeType)) {
+    return {
+      isValid: false,
+      error: {
+        field: 'file',
+        message: 'Unsupported file MIME type. Allowed types are: PDF, JPEG, PNG, WebP, and Plain Text.'
+      }
+    };
+  }
+
+  return { isValid: true, error: null };
+}
 
 function isRateLimited(ip) {
   const now = Date.now();
@@ -250,94 +395,137 @@ export async function POST(request) {
       return NextResponse.json(
         { 
           success: false, 
-          error: 'Too many requests submitted from your IP address. Please wait a few minutes before trying again.' 
+          error: 'Too many requests submitted from your IP address. Please wait a few minutes before trying again.',
+          errors: [{ field: 'rate_limit', message: 'Too many requests submitted from your IP address.' }]
         },
         { status: 429 }
       );
     }
 
     const contentType = request.headers.get('content-type') || '';
-    let formType = 'assessment';
-    let firstName = '';
-    let lastName = '';
-    let email = '';
-    let businessName = '';
-    let service = '';
-    let timeline = '';
-    let message = '';
+    const rawData = {};
     let attachedFile = null;
 
     if (contentType.includes('multipart/form-data')) {
       const formData = await request.formData();
-      formType = (formData.get('formType') || 'assessment').toString().slice(0, 50);
-      firstName = (formData.get('firstName') || formData.get('name') || '').toString().trim().slice(0, 100);
-      lastName = (formData.get('lastName') || '').toString().trim().slice(0, 100);
-      email = (formData.get('email') || '').toString().trim().slice(0, 120);
-      businessName = (formData.get('businessName') || formData.get('company') || '').toString().trim().slice(0, 150);
-      service = (formData.get('service') || '').toString().trim().slice(0, 100);
-      timeline = (formData.get('timeline') || '').toString().trim().slice(0, 100);
-      message = (formData.get('message') || formData.get('question') || '').toString().trim().slice(0, 8000);
+      rawData.formType = (formData.get('formType') || 'assessment').toString();
+      rawData.firstName = (formData.get('firstName') || formData.get('name') || '').toString();
+      rawData.lastName = (formData.get('lastName') || '').toString();
+      rawData.email = (formData.get('email') || '').toString();
+      rawData.businessName = (formData.get('businessName') || formData.get('company') || '').toString();
+      rawData.service = (formData.get('service') || '').toString();
+      rawData.timeline = (formData.get('timeline') || '').toString();
+      rawData.message = (formData.get('message') || formData.get('question') || '').toString();
 
       const fileField = formData.get('file');
       if (fileField && typeof fileField === 'object' && typeof fileField.arrayBuffer === 'function' && fileField.size > 0) {
-        if (fileField.size > MAX_FILE_SIZE_BYTES) {
-          return NextResponse.json(
-            { success: false, error: 'Attached file exceeds the maximum allowed limit of 10MB.' },
-            { status: 400 }
-          );
-        }
-
-        const fileName = (fileField.name || '').toLowerCase();
-        const hasBlockedExtension = BLOCKED_FILE_EXTENSIONS.some(ext => fileName.endsWith(ext));
-        if (hasBlockedExtension) {
-          return NextResponse.json(
-            { success: false, error: 'Executable and script file attachments are blocked for security purposes. Please upload a PDF, document, or image.' },
-            { status: 400 }
-          );
-        }
-
         attachedFile = fileField;
       }
     } else {
-      const json = await request.json();
-      formType = (json.formType || 'quick_inquiry').slice(0, 50);
-      firstName = (json.firstName || json.name || '').trim().slice(0, 100);
-      lastName = (json.lastName || '').trim().slice(0, 100);
-      email = (json.email || '').trim().slice(0, 120);
-      businessName = (json.businessName || json.company || '').trim().slice(0, 150);
-      service = (json.service || '').trim().slice(0, 100);
-      timeline = (json.timeline || '').trim().slice(0, 100);
-      message = (json.message || json.question || '').trim().slice(0, 8000);
+      const json = await request.json().catch(() => ({}));
+      rawData.formType = json.formType || 'quick_inquiry';
+      rawData.firstName = json.firstName || json.name || '';
+      rawData.lastName = json.lastName || '';
+      rawData.email = json.email || '';
+      rawData.businessName = json.businessName || json.company || '';
+      rawData.service = json.service || '';
+      rawData.timeline = json.timeline || '';
+      rawData.message = json.message || json.question || '';
     }
 
-    // Validation
-    if (!email) {
+    // Adapt quick inquiry submissions to satisfy strict schema
+    if (rawData.formType === 'quick_inquiry') {
+      if (!rawData.firstName || rawData.firstName.trim().length < 2) {
+        const emailPrefix = (rawData.email || '').split('@')[0];
+        rawData.firstName = emailPrefix && emailPrefix.length >= 2 ? emailPrefix.slice(0, 50) : 'Visitor';
+      }
+      if (!rawData.service) {
+        rawData.service = 'other';
+      }
+    }
+
+    // 2. Strict Zod Schema Validation
+    const parseResult = contactSchema.safeParse(rawData);
+    if (!parseResult.success) {
+      const issues = parseResult.error.issues || parseResult.error.errors || [];
+      const formattedErrors = issues.map((err) => ({
+        field: err.path.join('.') || 'general',
+        message: err.message
+      }));
+
       return NextResponse.json(
-        { success: false, error: 'Email address is required.' },
+        {
+          success: false,
+          error: formattedErrors[0]?.message || 'Validation failed.',
+          errors: formattedErrors
+        },
         { status: 400 }
       );
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return NextResponse.json(
-        { success: false, error: 'Please provide a valid email address.' },
-        { status: 400 }
-      );
-    }
+    const {
+      formType,
+      firstName,
+      lastName,
+      email,
+      businessName,
+      service,
+      timeline,
+      message
+    } = parseResult.data;
 
-    if (!message) {
-      return NextResponse.json(
-        { success: false, error: 'Message content is required.' },
-        { status: 400 }
-      );
-    }
+    // 3. File Attachment Hardening & Sanitization
+    const mailAttachments = [];
+    let attachmentDetails = {
+      hasAttachment: false,
+      attachmentName: '',
+      attachmentSize: ''
+    };
 
-    if (formType === 'assessment' && !service) {
-      return NextResponse.json(
-        { success: false, error: 'Please select a primary service.' },
-        { status: 400 }
-      );
+    if (attachedFile) {
+      const fileCheck = validateAttachment(attachedFile);
+      if (!fileCheck.isValid) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: fileCheck.error.message,
+            errors: [fileCheck.error]
+          },
+          { status: 400 }
+        );
+      }
+
+      try {
+        const sanitizedFileName = sanitizeFilename(attachedFile.name);
+        const fileBuffer = Buffer.from(await attachedFile.arrayBuffer());
+
+        mailAttachments.push({
+          filename: sanitizedFileName,
+          content: fileBuffer,
+          contentType: attachedFile.type || 'application/octet-stream'
+        });
+
+        const sizeInKB = (attachedFile.size / 1024).toFixed(1);
+        const sizeStr = attachedFile.size > 1024 * 1024 
+          ? (attachedFile.size / (1024 * 1024)).toFixed(2) + ' MB'
+          : sizeInKB + ' KB';
+
+        attachmentDetails = {
+          hasAttachment: true,
+          attachmentName: sanitizedFileName,
+          attachmentSize: sizeStr
+        };
+      } catch (fileErr) {
+        console.error('[Attachment Processing Error]:', fileErr);
+        return NextResponse.json(
+          {
+            success: false,
+            error: 'Failed to process file attachment. Please try again.',
+            errors: [{ field: 'file', message: 'Error reading attachment data.' }]
+          },
+          { status: 400 }
+        );
+      }
     }
 
     const clientFullName = [firstName, lastName].filter(Boolean).join(' ') || (email.split('@')[0] || 'Prospective Client');
@@ -347,38 +535,7 @@ export async function POST(request) {
       timeStyle: 'medium'
     }) + ' UTC';
 
-    // Build attachments
-    const mailAttachments = [];
-    let attachmentDetails = {
-      hasAttachment: false,
-      attachmentName: '',
-      attachmentSize: ''
-    };
-
-    if (attachedFile) {
-      try {
-        const fileBuffer = Buffer.from(await attachedFile.arrayBuffer());
-        mailAttachments.push({
-          filename: attachedFile.name,
-          content: fileBuffer,
-          contentType: attachedFile.type || 'application/octet-stream'
-        });
-        const sizeInKB = (attachedFile.size / 1024).toFixed(1);
-        const sizeStr = attachedFile.size > 1024 * 1024 
-          ? (attachedFile.size / (1024 * 1024)).toFixed(2) + ' MB'
-          : sizeInKB + ' KB';
-
-        attachmentDetails = {
-          hasAttachment: true,
-          attachmentName: attachedFile.name,
-          attachmentSize: sizeStr
-        };
-      } catch (fileErr) {
-        console.error('Error processing attachment buffer:', fileErr);
-      }
-    }
-
-    // Prepare Subject & Content
+    // 4. Prepare Subject & Email Content
     const emailSubject = formType === 'assessment'
       ? `[Project Assessment] ${service} - ${clientFullName}${businessName ? ` (${businessName})` : ''}`
       : formType === 'quick_inquiry'
@@ -435,7 +592,7 @@ export async function POST(request) {
         'and add it to .env.local or your production environment variables.'
       );
 
-      // In local development without credentials configured yet, we simulate or log the email so development doesn't block
+      // In local development without credentials configured yet, we simulate email dispatch
       if (process.env.NODE_ENV !== 'production') {
         console.log('--- [DEV SIMULATED EMAIL DISPATCH] ---');
         console.log(`To: ${receiverEmail}`);
@@ -460,7 +617,8 @@ export async function POST(request) {
       return NextResponse.json(
         {
           success: false,
-          error: 'Email service is currently being configured. Please reach out to syntraloop.contact@gmail.com directly or via WhatsApp.'
+          error: 'Email service is currently being configured. Please reach out to syntraloop.contact@gmail.com directly or via WhatsApp.',
+          errors: [{ field: 'smtp', message: 'Mail server service not configured.' }]
         },
         { status: 503 }
       );
@@ -502,11 +660,13 @@ export async function POST(request) {
     });
 
   } catch (error) {
-    console.error('[SyntraLoop Email Error]:', error);
+    // Robust Error Handling: Never leak internal stack traces or connection details
+    console.error('[SyntraLoop Email Server Error]:', error);
     return NextResponse.json(
       {
         success: false,
-        error: error.message || 'Failed to dispatch email. Please try again or contact us directly.'
+        error: 'An internal server error occurred while processing your request. Please contact us directly.',
+        errors: [{ field: 'server', message: 'Internal service error.' }]
       },
       { status: 500 }
     );

@@ -762,7 +762,7 @@ export default function Chatbot() {
     // ========================================================
 
     // 1. Prompt Injection, Jailbreak & Secret Extraction Defense
-    if (/(system\s*prompt|ignore\s*(all|previous)\s*instructions|developer\s*mode|dan\s*mode|jailbreak|reveal\s*your\s*(instructions|prompt)|print\s*(your\s*)?system\s*prompt|api\s*key|secret\s*key|env\s*variables|backend\s*instructions|hidden\s*prompt)/i.test(stripped)) {
+    if (/(system\s+prompt|ignore\s+(?:all|previous)\s+instructions|developer\s+mode|dan\s+mode|jailbreak|reveal\s+your\s+(?:instructions|prompt)|print\s+system\s+prompt|print\s+your\s+system\s+prompt|api\s+key|secret\s+key|env\s+variables|backend\s+instructions|hidden\s+prompt)/i.test(stripped)) {
       return {
         text: "🛡️ **Security Notice:**\n\nI operate strictly under **SyntraLoop Security & Privacy Protocols**. System configurations, internal instructions, and API keys are protected and cannot be disclosed.\n\nHow can I assist you with your web application, e-commerce, or AI software project today?",
         options: [
