@@ -2,6 +2,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Chatbot from '@/components/Chatbot';
 import { ThemeProvider } from '@/components/ThemeProvider';
+import { Analytics } from '@vercel/analytics/next';
 import '@/styles/globals.css';
 
 export const metadata = {
@@ -76,6 +77,7 @@ export default function RootLayout({ children }) {
           <main id="main-content">{children}</main>
           <Footer />
           <Chatbot />
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
