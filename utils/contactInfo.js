@@ -10,6 +10,25 @@ const PHONE_PARTS = ['+94', '74', '226', '6041'];
 const PHONE_RAW_PARTS = ['94742266041'];
 
 /**
+ * Official social media profiles
+ */
+export const SOCIAL_LINKS = {
+  facebook: "https://www.facebook.com/profile.php?id=61593976444509",
+  instagram: "https://www.instagram.com/syntraloop/?hl=en",
+  twitter: "https://x.com/syntraloop",
+  linkedin: "https://www.linkedin.com/company/syntraloop/",
+};
+
+/**
+ * Returns social media links object.
+ * @returns {typeof SOCIAL_LINKS}
+ */
+export function getSocialLinks() {
+  return SOCIAL_LINKS;
+}
+
+
+/**
  * Returns the primary company contact email.
  * @returns {string}
  */

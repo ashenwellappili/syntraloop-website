@@ -26,9 +26,22 @@ import {
   X,
   Paperclip
 } from 'lucide-react';
-import { getContactEmail, getWhatsAppNumber, getWhatsAppUrl, getMailtoUrl } from '@/utils/contactInfo';
+import { getContactEmail, getWhatsAppNumber, getWhatsAppUrl, getMailtoUrl, SOCIAL_LINKS } from '@/utils/contactInfo';
 import { trackEvent } from '@/utils/analytics';
 import LoadingButton from '@/components/LoadingButton';
+
+const XIcon = ({ size = 20, className = "" }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
+    aria-hidden="true"
+  >
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </svg>
+);
 
 export default function ContactClient() {
   const contactEmail = getContactEmail();
@@ -76,8 +89,32 @@ export default function ContactClient() {
       value: "SyntraLoop Profile",
       meta: "Company Network",
       icon: Linkedin,
-      link: "https://www.linkedin.com/company/syntraloop",
+      link: SOCIAL_LINKS.linkedin,
       actionText: "View Profile"
+    },
+    {
+      title: "Facebook Official",
+      value: "SyntraLoop Page",
+      meta: "Community & Updates",
+      icon: Facebook,
+      link: SOCIAL_LINKS.facebook,
+      actionText: "Follow Page"
+    },
+    {
+      title: "Instagram Official",
+      value: "@syntraloop",
+      meta: "Behind The Scenes",
+      icon: Instagram,
+      link: SOCIAL_LINKS.instagram,
+      actionText: "Follow Instagram"
+    },
+    {
+      title: "X (Twitter) Official",
+      value: "@syntraloop",
+      meta: "News & Tech Insights",
+      icon: XIcon,
+      link: SOCIAL_LINKS.twitter,
+      actionText: "Follow on X"
     },
     {
       title: "Global Availability",

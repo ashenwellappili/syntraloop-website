@@ -2587,21 +2587,30 @@ a {
 
 /* Direct Contact Channels Grid */
 .contact-channels-grid {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 1.25rem;
   margin-top: 2rem;
 }
 
+.contact-channels-grid > * {
+  flex: 1 1 100%;
+  max-width: 100%;
+}
+
 @media (min-width: 640px) {
-  .contact-channels-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .contact-channels-grid > * {
+    flex: 0 1 calc(50% - 0.75rem);
+    max-width: calc(50% - 0.75rem);
   }
 }
 
 @media (min-width: 1024px) {
-  .contact-channels-grid {
-    grid-template-columns: repeat(4, 1fr);
+  .contact-channels-grid > * {
+    flex: 0 1 calc(25% - 1rem);
+    max-width: calc(25% - 1rem);
+    min-width: 240px;
   }
 }
 

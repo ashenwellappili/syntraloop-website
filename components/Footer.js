@@ -18,14 +18,10 @@ const XIcon = ({ size = 16, className = "" }) => (
 );
 
 import { ObfuscatedEmail, ObfuscatedPhone } from '@/components/ObfuscatedContact';
+import { SOCIAL_LINKS } from '@/utils/contactInfo';
 
 export default function Footer() {
-  const socialLinks = {
-    linkedin: "https://www.linkedin.com/company/syntraloop",
-    facebook: "https://facebook.com/syntraloop",
-    instagram: "https://instagram.com/syntraloop",
-    twitter: "https://x.com/syntraloop",
-  };
+  const socialLinks = SOCIAL_LINKS;
 
   return (
     <footer className="footer-root">
